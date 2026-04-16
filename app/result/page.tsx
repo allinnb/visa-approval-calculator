@@ -207,6 +207,28 @@ function ResultContent() {
           <PDFDownloadButton result={displayResult} userName={name} />
         </div>
 
+        {/* QR Code Section */}
+        <div className="mt-6 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col sm:flex-row items-center gap-6">
+          <img
+            src="/qr-code.jpg"
+            alt="签证顾问二维码"
+            className="w-28 h-28 flex-shrink-0 rounded-xl"
+          />
+          <div>
+            <h3 className="font-semibold text-slate-900 mb-2">获得签证顾问的专业指导</h3>
+            <p className="text-sm text-slate-500 mb-3">
+              扫码联系资深签证顾问，获取个性化申请方案、 材料清单优化及实时政策解读，
+              提高您的出签率。
+            </p>
+            <div className="flex flex-wrap gap-3 text-xs">
+              <span className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full">美国 B1/B2</span>
+              <span className="px-3 py-1.5 bg-red-50 text-red-700 rounded-full">申根区</span>
+              <span className="px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full">英国</span>
+              <span className="px-3 py-1.5 bg-green-50 text-green-700 rounded-full">更多国家...</span>
+            </div>
+          </div>
+        </div>
+
         {/* Disclaimer */}
         <div className="mt-8 p-4 bg-slate-100 rounded-xl text-sm text-slate-500">
           <p className="font-medium text-slate-700 mb-2">免责声明</p>
