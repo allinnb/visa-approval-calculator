@@ -7,36 +7,55 @@ import {
   View,
   StyleSheet,
   PDFDownloadLink,
+  Image,
+  Font,
 } from '@react-pdf/renderer';
+import { useEffect, useState } from 'react';
 import { ScoringResult } from '@/lib/types';
 import { regionConfigs } from '@/lib/scoring/regions';
 import { dimensionConfigs, dimensionOrder } from '@/lib/scoring/weights';
+
+// 注册中文字体（Noto Sans SC，本地 public/fonts 目录）
+Font.register({
+  family: 'NotoSansSC',
+  fonts: [
+    {
+      src: '/fonts/NotoSansSC-Regular.otf',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/NotoSansSC-Bold.otf',
+      fontWeight: 700,
+    },
+  ],
+});
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 10,
+    fontFamily: 'NotoSansSC',
     color: '#1e293b',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
-    paddingBottom: 16,
+    paddingBottom: 14,
   },
   headerLeft: {
     flexDirection: 'column',
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 700,
     color: '#0f172a',
     marginBottom: 4,
   },
   subtitle: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#64748b',
   },
   headerRight: {
@@ -44,54 +63,54 @@ const styles = StyleSheet.create({
   },
   region: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: 700,
     color: '#334155',
   },
   visaType: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#64748b',
     marginTop: 2,
   },
   scoreSection: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
   scoreCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f8fafc',
-    padding: 20,
+    padding: 18,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: 14,
   },
   scoreBig: {
-    fontSize: 36,
-    fontWeight: 'bold',
+    fontSize: 34,
+    fontWeight: 700,
     color: '#3b82f6',
-    marginRight: 16,
+    marginRight: 14,
   },
   scoreLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#64748b',
   },
   gradeLabel: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 4,
+    fontSize: 13,
+    fontWeight: 700,
+    marginTop: 3,
   },
   gradeGreen: { color: '#16a34a' },
   gradeYellow: { color: '#ca8a04' },
   gradeRed: { color: '#dc2626' },
   section: {
-    marginBottom: 20,
+    marginBottom: 18,
   },
   sectionTitle: {
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 11,
+    fontWeight: 700,
     color: '#334155',
-    marginBottom: 12,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
-    paddingBottom: 6,
+    paddingBottom: 5,
   },
   dimensionGrid: {
     flexDirection: 'row',
@@ -100,19 +119,19 @@ const styles = StyleSheet.create({
   },
   dimensionItem: {
     width: '30%',
-    padding: 10,
+    padding: 8,
     backgroundColor: '#f8fafc',
     borderRadius: 6,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   dimensionName: {
     fontSize: 8,
     color: '#64748b',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   dimensionScore: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: 700,
   },
   dimensionLow: {
     color: '#dc2626',
@@ -125,16 +144,16 @@ const styles = StyleSheet.create({
   },
   suggestions: {
     backgroundColor: '#fef3c7',
-    padding: 16,
+    padding: 14,
     borderRadius: 8,
     borderLeftWidth: 3,
     borderLeftColor: '#f59e0b',
   },
   suggestionTitle: {
-    fontSize: 11,
-    fontWeight: 'bold',
+    fontSize: 10,
+    fontWeight: 700,
     color: '#92400e',
-    marginBottom: 8,
+    marginBottom: 7,
   },
   suggestionItem: {
     fontSize: 9,
@@ -146,23 +165,13 @@ const styles = StyleSheet.create({
     width: 12,
     color: '#f59e0b',
   },
-  footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 40,
-    right: 40,
-    borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
-    paddingTop: 12,
+  bottomSection: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  footerText: {
-    fontSize: 8,
-    color: '#94a3b8',
+    gap: 16,
+    marginTop: 10,
   },
   disclaimer: {
-    marginTop: 24,
+    flex: 1,
     padding: 12,
     backgroundColor: '#f1f5f9',
     borderRadius: 6,
@@ -172,23 +181,48 @@ const styles = StyleSheet.create({
     color: '#64748b',
     lineHeight: 1.4,
   },
+  qrSection: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#f8fafc',
+    borderRadius: 6,
+    width: 120,
+  },
+  qrLabel: {
+    fontSize: 8,
+    color: '#64748b',
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 28,
+    left: 40,
+    right: 40,
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  footerText: {
+    fontSize: 8,
+    color: '#94a3b8',
+  },
   nameField: {
     fontSize: 10,
     color: '#64748b',
-    marginBottom: 16,
+    marginBottom: 14,
   },
 });
 
 function getGradeColor(grade: string) {
   switch (grade) {
-    case 'green':
-      return styles.gradeGreen;
-    case 'yellow':
-      return styles.gradeYellow;
-    case 'red':
-      return styles.gradeRed;
-    default:
-      return styles.gradeGreen;
+    case 'green': return styles.gradeGreen;
+    case 'yellow': return styles.gradeYellow;
+    case 'red': return styles.gradeRed;
+    default: return styles.gradeGreen;
   }
 }
 
@@ -200,23 +234,21 @@ function getScoreColor(score: number) {
 
 function getGradeLabel(grade: string) {
   switch (grade) {
-    case 'green':
-      return '出签前景良好';
-    case 'yellow':
-      return '出签概率中等';
-    case 'red':
-      return '出签风险较高';
-    default:
-      return '';
+    case 'green': return '出签前景良好';
+    case 'yellow': return '出签概率中等';
+    case 'red': return '出签风险较高';
+    default: return '';
   }
 }
 
+// 二维码 base64 数据（已在 API 路由中返回）
 interface PDFDocumentProps {
   result: ScoringResult;
   userName: string;
+  qrCodeBase64?: string;
 }
 
-const VisaReportPDF = ({ result, userName }: PDFDocumentProps) => {
+const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => {
   const regionConfig = regionConfigs[result.region];
   const visaType = regionConfig.visaTypes.find((v) => v.id === result.visaType) || regionConfig.visaTypes[0];
 
@@ -277,7 +309,7 @@ const VisaReportPDF = ({ result, userName }: PDFDocumentProps) => {
                 .slice(0, 5)
                 .map((s, i) => (
                   <View key={i} style={styles.suggestionItem}>
-                    <Text style={styles.suggestionBullet}>• </Text>
+                    <Text style={styles.suggestionBullet}>* </Text>
                     <Text>{s}</Text>
                   </View>
                 ))}
@@ -285,12 +317,24 @@ const VisaReportPDF = ({ result, userName }: PDFDocumentProps) => {
           </View>
         )}
 
-        <View style={styles.disclaimer}>
-          <Text style={styles.disclaimerText}>
-            免责声明：本报告仅供参考，不能替代官方正式签证申请。实际出签结果取决于签证官个案审核、
-            当前政策、申请季节等多种因素。本工具基于各国官方公开数据和行业通用评估模型，
-            不保证评估结果的100%准确性。
-          </Text>
+        <View style={styles.bottomSection}>
+          <View style={styles.disclaimer}>
+            <Text style={styles.disclaimerText}>
+              免责声明：本报告仅供参考，不能替代官方正式签证申请。实际出签结果取决于签证官个案审核、
+              当前政策、申请季节等多种因素。本工具基于各国官方公开数据和行业通用评估模型，
+              不保证评估结果的100%准确性。
+            </Text>
+          </View>
+
+          {qrCodeBase64 && (
+            <View style={styles.qrSection}>
+              <Image
+                src={`data:image/jpeg;base64,${qrCodeBase64}`}
+                style={{ width: 80, height: 80 }}
+              />
+              <Text style={styles.qrLabel}>扫码获取专业指导</Text>
+            </View>
+          )}
         </View>
 
         <View style={styles.footer}>
@@ -307,13 +351,37 @@ interface PDFDownloadButtonProps {
   userName: string;
 }
 
+async function fetchQRCodeBase64(): Promise<string> {
+  try {
+    const res = await fetch('/qr-code.jpg');
+    const blob = await res.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = (reader.result as string).split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return '';
+  }
+}
+
 export default function PDFDownloadButton({ result, userName }: PDFDownloadButtonProps) {
+  const [qrCodeBase64, setQrCodeBase64] = useState<string>('');
+
+  useEffect(() => {
+    fetchQRCodeBase64().then(setQrCodeBase64);
+  }, []);
+
   const regionConfig = regionConfigs[result.region];
   const fileName = `签证评估报告_${regionConfig.name}_${new Date().toISOString().split('T')[0]}.pdf`;
 
   return (
     <PDFDownloadLink
-      document={<VisaReportPDF result={result} userName={userName} />}
+      document={<VisaReportPDF result={result} userName={userName} qrCodeBase64={qrCodeBase64} />}
       fileName={fileName}
       className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition"
     >
