@@ -14,19 +14,14 @@ import { useEffect, useState } from 'react';
 import { ScoringResult } from '@/lib/types';
 import { regionConfigs } from '@/lib/scoring/regions';
 import { dimensionConfigs, dimensionOrder } from '@/lib/scoring/weights';
+import { getDocumentChecklist } from '@/lib/scoring/documents';
 
 // 注册中文字体（Noto Sans SC，本地 public/fonts 目录）
 Font.register({
   family: 'NotoSansSC',
   fonts: [
-    {
-      src: '/fonts/NotoSansSC-Regular.otf',
-      fontWeight: 400,
-    },
-    {
-      src: '/fonts/NotoSansSC-Bold.otf',
-      fontWeight: 700,
-    },
+    { src: '/fonts/NotoSansSC-Regular.otf', fontWeight: 400 },
+    { src: '/fonts/NotoSansSC-Bold.otf', fontWeight: 700 },
   ],
 });
 
@@ -45,176 +40,77 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e2e8f0',
     paddingBottom: 14,
   },
-  headerLeft: {
-    flexDirection: 'column',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 700,
-    color: '#0f172a',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 9,
-    color: '#64748b',
-  },
-  headerRight: {
-    alignItems: 'flex-end',
-  },
-  region: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: '#334155',
-  },
-  visaType: {
-    fontSize: 9,
-    color: '#64748b',
-    marginTop: 2,
-  },
-  scoreSection: {
-    marginBottom: 20,
-  },
+  headerLeft: { flexDirection: 'column' },
+  title: { fontSize: 20, fontWeight: 700, color: '#0f172a', marginBottom: 4 },
+  subtitle: { fontSize: 9, color: '#64748b' },
+  headerRight: { alignItems: 'flex-end' },
+  region: { fontSize: 14, fontWeight: 700, color: '#334155' },
+  visaType: { fontSize: 9, color: '#64748b', marginTop: 2 },
+  scoreSection: { marginBottom: 20 },
   scoreCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f8fafc',
-    padding: 18,
-    borderRadius: 8,
-    marginBottom: 14,
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: '#f8fafc', padding: 18, borderRadius: 8, marginBottom: 14,
   },
-  scoreBig: {
-    fontSize: 34,
-    fontWeight: 700,
-    color: '#3b82f6',
-    marginRight: 14,
-  },
-  scoreLabel: {
-    fontSize: 11,
-    color: '#64748b',
-  },
-  gradeLabel: {
-    fontSize: 13,
-    fontWeight: 700,
-    marginTop: 3,
-  },
+  scoreBig: { fontSize: 34, fontWeight: 700, color: '#3b82f6', marginRight: 14 },
+  scoreLabel: { fontSize: 11, color: '#64748b' },
+  gradeLabel: { fontSize: 13, fontWeight: 700, marginTop: 3 },
   gradeGreen: { color: '#16a34a' },
   gradeYellow: { color: '#ca8a04' },
   gradeRed: { color: '#dc2626' },
-  section: {
-    marginBottom: 18,
-  },
+  section: { marginBottom: 18 },
   sectionTitle: {
-    fontSize: 11,
-    fontWeight: 700,
-    color: '#334155',
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-    paddingBottom: 5,
+    fontSize: 11, fontWeight: 700, color: '#334155',
+    marginBottom: 10, borderBottomWidth: 1, borderBottomColor: '#e2e8f0', paddingBottom: 5,
   },
-  dimensionGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
+  dimensionGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   dimensionItem: {
-    width: '30%',
-    padding: 8,
-    backgroundColor: '#f8fafc',
-    borderRadius: 6,
-    marginBottom: 3,
+    width: '30%', padding: 8, backgroundColor: '#f8fafc', borderRadius: 6, marginBottom: 3,
   },
-  dimensionName: {
-    fontSize: 8,
-    color: '#64748b',
-    marginBottom: 3,
-  },
-  dimensionScore: {
-    fontSize: 15,
-    fontWeight: 700,
-  },
-  dimensionLow: {
-    color: '#dc2626',
-  },
-  dimensionMedium: {
-    color: '#ca8a04',
-  },
-  dimensionHigh: {
-    color: '#16a34a',
-  },
+  dimensionName: { fontSize: 8, color: '#64748b', marginBottom: 3 },
+  dimensionScore: { fontSize: 15, fontWeight: 700 },
+  dimensionLow: { color: '#dc2626' },
+  dimensionMedium: { color: '#ca8a04' },
+  dimensionHigh: { color: '#16a34a' },
   suggestions: {
-    backgroundColor: '#fef3c7',
-    padding: 14,
-    borderRadius: 8,
-    borderLeftWidth: 3,
-    borderLeftColor: '#f59e0b',
+    backgroundColor: '#fef3c7', padding: 14, borderRadius: 8,
+    borderLeftWidth: 3, borderLeftColor: '#f59e0b',
   },
-  suggestionTitle: {
-    fontSize: 10,
-    fontWeight: 700,
-    color: '#92400e',
-    marginBottom: 7,
+  suggestionTitle: { fontSize: 10, fontWeight: 700, color: '#92400e', marginBottom: 7 },
+  suggestionItem: { fontSize: 9, color: '#78350f', marginBottom: 4, flexDirection: 'row' },
+  suggestionBullet: { width: 12, color: '#f59e0b' },
+  // 材料清单样式
+  docSection: { marginBottom: 16 },
+  docHeader: {
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: '#eff6ff', padding: 8, borderRadius: 6, marginBottom: 8,
   },
-  suggestionItem: {
-    fontSize: 9,
-    color: '#78350f',
-    marginBottom: 4,
-    flexDirection: 'row',
+  docHeaderText: { fontSize: 10, fontWeight: 700, color: '#1d4ed8', marginLeft: 6 },
+  docItem: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 5 },
+  docBadgeRequired: {
+    backgroundColor: '#dc2626', color: '#fff', fontSize: 7,
+    paddingHorizontal: 4, paddingVertical: 1, borderRadius: 3, marginRight: 6,
   },
-  suggestionBullet: {
-    width: 12,
-    color: '#f59e0b',
+  docBadgeOptional: {
+    backgroundColor: '#94a3b8', color: '#fff', fontSize: 7,
+    paddingHorizontal: 4, paddingVertical: 1, borderRadius: 3, marginRight: 6,
   },
-  bottomSection: {
-    flexDirection: 'row',
-    gap: 16,
-    marginTop: 10,
-  },
-  disclaimer: {
-    flex: 1,
-    padding: 12,
-    backgroundColor: '#f1f5f9',
-    borderRadius: 6,
-  },
-  disclaimerText: {
-    fontSize: 8,
-    color: '#64748b',
-    lineHeight: 1.4,
-  },
+  docName: { fontSize: 9, color: '#334155', flex: 1 },
+  docNote: { fontSize: 8, color: '#94a3b8', marginTop: 1 },
+  bottomSection: { flexDirection: 'row', gap: 16, marginTop: 10 },
+  disclaimer: { flex: 1, padding: 12, backgroundColor: '#f1f5f9', borderRadius: 6 },
+  disclaimerText: { fontSize: 8, color: '#64748b', lineHeight: 1.4 },
   qrSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    backgroundColor: '#f8fafc',
-    borderRadius: 6,
-    width: 120,
+    alignItems: 'center', justifyContent: 'center',
+    padding: 10, backgroundColor: '#f8fafc', borderRadius: 6, width: 120,
   },
-  qrLabel: {
-    fontSize: 8,
-    color: '#64748b',
-    textAlign: 'center',
-    marginTop: 4,
-  },
+  qrLabel: { fontSize: 8, color: '#64748b', textAlign: 'center', marginTop: 4 },
   footer: {
-    position: 'absolute',
-    bottom: 28,
-    left: 40,
-    right: 40,
-    borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
-    paddingTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    position: 'absolute', bottom: 28, left: 40, right: 40,
+    borderTopWidth: 1, borderTopColor: '#e2e8f0', paddingTop: 10,
+    flexDirection: 'row', justifyContent: 'space-between',
   },
-  footerText: {
-    fontSize: 8,
-    color: '#94a3b8',
-  },
-  nameField: {
-    fontSize: 10,
-    color: '#64748b',
-    marginBottom: 14,
-  },
+  footerText: { fontSize: 8, color: '#94a3b8' },
+  nameField: { fontSize: 10, color: '#64748b', marginBottom: 14 },
 });
 
 function getGradeColor(grade: string) {
@@ -225,13 +121,11 @@ function getGradeColor(grade: string) {
     default: return styles.gradeGreen;
   }
 }
-
 function getScoreColor(score: number) {
   if (score < 50) return styles.dimensionLow;
   if (score < 70) return styles.dimensionMedium;
   return styles.dimensionHigh;
 }
-
 function getGradeLabel(grade: string) {
   switch (grade) {
     case 'green': return '出签前景良好';
@@ -241,7 +135,6 @@ function getGradeLabel(grade: string) {
   }
 }
 
-// 二维码 base64 数据（已在 API 路由中返回）
 interface PDFDocumentProps {
   result: ScoringResult;
   userName: string;
@@ -250,11 +143,15 @@ interface PDFDocumentProps {
 
 const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => {
   const regionConfig = regionConfigs[result.region];
-  const visaType = regionConfig.visaTypes.find((v) => v.id === result.visaType) || regionConfig.visaTypes[0];
+  const visaType =
+    regionConfig.visaTypes.find((v) => v.id === result.visaType) ||
+    regionConfig.visaTypes[0];
+  const documents = getDocumentChecklist(result.region, result.visaType);
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* 页眉 */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <Text style={styles.title}>签证出签率评估报告</Text>
@@ -268,6 +165,7 @@ const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => 
 
         <Text style={styles.nameField}>评估对象：{userName}</Text>
 
+        {/* 综合评分 */}
         <View style={styles.scoreSection}>
           <View style={styles.scoreCard}>
             <Text style={styles.scoreBig}>{result.totalScore}%</Text>
@@ -280,6 +178,7 @@ const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => 
           </View>
         </View>
 
+        {/* 六维度 */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>六维度评分详情</Text>
           <View style={styles.dimensionGrid}>
@@ -298,6 +197,7 @@ const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => 
           </View>
         </View>
 
+        {/* 改善建议 */}
         {result.dimensionScores.some((d) => d.suggestions.length > 0) && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>改善建议</Text>
@@ -317,6 +217,28 @@ const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => 
           </View>
         )}
 
+        {/* 材料准备清单 */}
+        {documents.length > 0 && (
+          <View style={styles.docSection}>
+            <Text style={styles.sectionTitle}>材料准备清单（{visaType.name}）</Text>
+            <View style={styles.docHeader}>
+              <Text style={styles.docHeaderText}>请根据您的申请类型准备以下材料</Text>
+            </View>
+            {documents.map((doc, i) => (
+              <View key={i} style={styles.docItem}>
+                <Text style={doc.required ? styles.docBadgeRequired : styles.docBadgeOptional}>
+                  {doc.required ? '必交' : '选交'}
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.docName}>{doc.name}</Text>
+                  {doc.note && <Text style={styles.docNote}>{doc.note}</Text>}
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* 底部：免责声明 + 二维码 */}
         <View style={styles.bottomSection}>
           <View style={styles.disclaimer}>
             <Text style={styles.disclaimerText}>
@@ -337,8 +259,11 @@ const VisaReportPDF = ({ result, userName, qrCodeBase64 }: PDFDocumentProps) => 
           )}
         </View>
 
+        {/* 页脚 */}
         <View style={styles.footer}>
-          <Text style={styles.footerText}>生成时间：{new Date().toLocaleDateString('zh-CN')}</Text>
+          <Text style={styles.footerText}>
+            生成时间：{new Date().toLocaleDateString('zh-CN')}
+          </Text>
           <Text style={styles.footerText}>数据来源：各国移民局官方年报（2024）</Text>
         </View>
       </Page>
@@ -386,7 +311,9 @@ export default function PDFDownloadButton({ result, userName }: PDFDownloadButto
       className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition"
     >
       {({ loading }) =>
-        loading ? '生成中...' : (
+        loading ? (
+          '生成中...'
+        ) : (
           <>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
