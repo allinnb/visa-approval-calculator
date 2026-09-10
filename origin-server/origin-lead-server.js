@@ -409,7 +409,7 @@ const server = http.createServer((req, res) => {
     pushWecom(
       '**🔔 官网留资** ' + leadId + '\n' +
       '> 姓名：' + name + '\n' +
-      '> 联系：' + maskContact(contact, isPhone) + '（' + (isPhone ? '手机' : '微信') + '）\n' +
+      '> 联系：' + contact + '（' + (isPhone ? '手机' : '微信') + '）\n' +
       '> 目的：' + destination + '\n' +
       '> 出行：' + travelTime + '\n' +
       '> 自测：' + (rec.scoreBand || '未测') + (rec.grade ? '（' + rec.grade + '）' : '') + '\n' +
