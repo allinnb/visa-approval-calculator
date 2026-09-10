@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="ORIGIN 奥赢国际出签率自测：美国、加拿大、英国、澳大利亚、新西兰、申根六大目的地，个人条件、财务、出行目的、材料、国内约束、户籍敏感六维加权评估，3 分钟出结果。全程浏览器本地计算，不上传答案。">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#070B15">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ORIGIN 奥赢国际">
+<meta property="og:title" content="出签率自测 | ORIGIN 奥赢国际">
+<meta property="og:description" content="六维加权评估签证出签把握，3 分钟出结果，附优先补强建议。全程本地计算，不上传答案。">
+<meta property="og:url" content="https://originintl.cn/tools/approval/">
+<meta property="og:image" content="https://originintl.cn/og-image.jpg">
+<link rel="canonical" href="https://originintl.cn/tools/approval/">
+<link rel="icon" type="image/jpeg" href="/images/origin-logo.jpg">
+<title>出签率自测 | ORIGIN 奥赢国际</title>
+<style>
+:root{
+  --bg:#070B15; --bg2:#0A1020; --panel:rgba(17,25,45,.72); --panel2:rgba(23,33,58,.9);
+  --line:rgba(148,163,184,.16); --line-soft:rgba(148,163,184,.09);
+  --txt:#E7ECF6; --txt2:#A6B1C8; --txt3:#697590;
+  --gold:#D9B45B; --gold2:#E8CE8F; --navy:#012169; --blue:#5B8DEF; --green:#34D399; --amber:#FBBF24; --red:#FB7185;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;
+  background:var(--bg); color:var(--txt); line-height:1.65; min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.grid-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:linear-gradient(rgba(148,163,184,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.045) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 100%)}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.35;z-index:-3;pointer-events:none}
+.orb-a{width:520px;height:520px;background:#12306B;top:-180px;left:-120px}
+.orb-b{width:420px;height:420px;background:#0E4D3C;top:30%;right:-160px;opacity:.22}
+.orb-c{width:380px;height:380px;background:#4A3A12;bottom:-160px;left:20%;opacity:.2}
+
+/* ===== 顶栏 ===== */
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,11,21,.82);border-bottom:1px solid var(--line-soft)}
+.header-in{max-width:1120px;margin:0 auto;padding:0 20px;height:62px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--txt)}
+.brand-chip{width:34px;height:34px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px var(--gold),0 0 14px rgba(217,180,91,.35)}
+.brand-chip img{width:100%;height:100%;object-fit:cover;display:block}
+.brand-name{display:flex;flex-direction:column;line-height:1.15}
+.brand-name b{font-size:15px;letter-spacing:.14em}
+.brand-name span{font-size:11px;color:var(--txt2);letter-spacing:.28em}
+.header-nav{display:flex;align-items:center;gap:4px}
+.header-nav a{color:var(--txt2);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:9px;transition:.18s}
+.header-nav a:hover{color:var(--txt);background:rgba(148,163,184,.1)}
+.header-nav a.on{color:var(--gold2);background:rgba(217,180,91,.12)}
+.header-cta{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),#C9A04A);color:#12224A!important;font-weight:700;border-radius:999px!important;padding:8px 16px!important}
+.header-cta:hover{filter:brightness(1.06)}
+
+main{max-width:1120px;margin:0 auto;padding:0 20px 120px}
+.view{display:none;animation:fade .35s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== 通用 ===== */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.22em;color:var(--gold2);text-transform:uppercase;margin-bottom:14px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold)}
+h1{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.22;letter-spacing:.01em}
+h1 em{font-style:normal;color:var(--gold2)}
+.sub{color:var(--txt2);font-size:clamp(14px,2.4vw,16.5px);max-width:640px;margin-top:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;border-radius:999px;padding:13px 26px;transition:.18s;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,var(--gold),#C9A04A);color:#12224A;box-shadow:0 6px 22px rgba(217,180,91,.25)}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn-ghost{background:rgba(148,163,184,.1);color:var(--txt);border:1px solid var(--line)}
+.btn-ghost:hover{background:rgba(148,163,184,.16)}
+.btn-line{background:transparent;color:var(--gold2);border:1px solid rgba(217,180,91,.45)}
+.btn-line:hover{background:rgba(217,180,91,.1)}
+.tip{font-size:12.5px;color:var(--txt3)}
+
+/* ===== 选国 ===== */
+.hero{padding:52px 0 30px;text-align:center}
+.hero .sub{margin:12px auto 0}
+.hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-top:20px;font-size:12.5px;color:var(--txt3)}
+.hero-meta span{display:inline-flex;align-items:center;gap:7px}
+.hero-meta i{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+.sec-title{font-size:19px;font-weight:700;margin:34px 0 4px}
+.sec-desc{color:var(--txt3);font-size:13.5px;margin-bottom:16px}
+.region-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rcard{position:relative;text-align:left;background:var(--panel);border:1.5px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px;cursor:pointer;transition:.18s;font-family:inherit;color:var(--txt)}
+.rcard:hover{border-color:rgba(217,180,91,.5);transform:translateY(-2px)}
+.rcard.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(217,180,91,.13),var(--panel) 60%);box-shadow:0 8px 26px rgba(217,180,91,.14)}
+.rcard .tick{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#12224A;font-size:13px;font-weight:800;display:none;align-items:center;justify-content:center}
+.rcard.on .tick{display:flex}
+.rflag{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;letter-spacing:.04em;color:#fff;margin-bottom:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.rname{font-size:16.5px;font-weight:700}
+.rbase{font-size:12.5px;color:var(--txt3);margin-top:3px}
+.rbase b{color:var(--txt2)}
+.visa-wrap{margin-top:6px}
+.visa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.vcard{text-align:left;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;transition:.18s;font-family:inherit;color:var(--txt);display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.vcard:hover{border-color:rgba(91,141,239,.55)}
+.vcard.on{border-color:var(--blue);background:linear-gradient(160deg,rgba(91,141,239,.14),var(--panel) 65%)}
+.vname{font-size:14.5px;font-weight:600}
+.vdesc{font-size:12.5px;color:var(--txt3);margin-top:3px}
+.vrate{text-align:right;flex-shrink:0}
+.vrate b{color:var(--green);font-size:15px}
+.vrate span{display:block;font-size:11px;color:var(--txt3)}
+.select-hint{margin-top:20px;text-align:center;color:var(--txt3);font-size:13.5px}
+.start-row{display:flex;justify-content:center;margin-top:18px}
+.privacy-line{margin-top:16px;text-align:center;font-size:12.5px;color:var(--txt3)}
+.privacy-line b{color:var(--txt2)}
+
+/* ===== 问卷 ===== */
+.quiz-layout{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start;padding-top:26px}
+.quiz-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.quiz-head .who{display:flex;align-items:center;gap:10px}
+.qflag{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.qflag + div b{font-size:16px;display:block}
+.qflag + div span{font-size:12.5px;color:var(--txt3)}
+.step-pos{font-size:13px;color:var(--txt2)}
+.step-pos b{color:var(--gold2)}
+.progress{display:flex;gap:5px;margin-bottom:16px}
+.progress i{height:5px;flex:1;border-radius:99px;background:rgba(148,163,184,.16);transition:.3s}
+.progress i.done{background:var(--green)}
+.progress i.act{background:var(--gold)}
+.steptabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;scrollbar-width:none}
+.steptabs::-webkit-scrollbar{display:none}
+.steptab{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--txt3);cursor:pointer;font-family:inherit;transition:.18s;min-height:34px}
+.steptab.on{color:var(--gold2);border-color:rgba(217,180,91,.5);background:rgba(217,180,91,.1);font-weight:600}
+.steptab.done{color:var(--green);border-color:rgba(52,211,153,.4)}
+.qcard{padding:24px}
+.qcard h2{font-size:18px;margin-bottom:4px}
+.qcard .qsub{font-size:13px;color:var(--txt3);margin-bottom:20px}
+.field{margin-bottom:20px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:13.5px;font-weight:600;margin-bottom:8px}
+.field .hint{font-size:12px;color:var(--txt3);margin-top:6px}
+input[type=text],input[type=number],select{
+  width:100%;background:rgba(7,11,21,.6);border:1.5px solid var(--line);border-radius:12px;
+  padding:13px 15px;color:var(--txt);font-size:15.5px;font-family:inherit;outline:none;transition:.18s;-webkit-appearance:none;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A6B1C8' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,180,91,.14)}
+input::placeholder{color:var(--txt3)}
+.bool{display:flex;align-items:center;justify-content:space-between;gap:14px;background:rgba(7,11,21,.5);border:1.5px solid var(--line);border-radius:13px;padding:14px 16px;cursor:pointer;transition:.18s;min-height:64px}
+.bool:hover{border-color:rgba(217,180,91,.4)}
+.bool .bt{font-size:14.5px;font-weight:600}
+.bool .bd{font-size:12.5px;color:var(--txt3);margin-top:2px}
+.bool .sw{flex-shrink:0;width:52px;height:29px;border-radius:99px;background:rgba(148,163,184,.25);position:relative;transition:.2s}
+.bool .sw::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:.2s}
+.bool.on .sw{background:var(--green)}
+.bool.on .sw::after{left:26px}
+.bool .st{flex-shrink:0;font-size:13px;font-weight:700;color:var(--txt3);min-width:34px;text-align:right}
+.bool.on .st{color:var(--green)}
+.bool-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.side{position:sticky;top:80px;display:flex;flex-direction:column;gap:14px}
+.side .card{padding:18px}
+.side h3{font-size:13px;letter-spacing:.12em;color:var(--txt3);font-weight:600;margin-bottom:12px}
+.mini{margin-bottom:11px}
+.mini:last-child{margin-bottom:0}
+.mini .mt{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
+.mini .mt b{color:var(--txt2);font-weight:600}
+.mini .mv{color:var(--txt3)}
+.mini .bar{height:6px;border-radius:99px;background:rgba(148,163,184,.14);overflow:hidden}
+.mini .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s ease}
+.mini.low .bar i{background:linear-gradient(90deg,#D97706,var(--amber))}
+.side-note{font-size:12px;color:var(--txt3);line-height:1.6}
+.navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}
+
+/* ===== 移动端固定底栏 ===== */
+.mob-bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(7,11,21,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line-soft);gap:10px}
+.mob-bar .btn{flex:1;padding:14px 18px;font-size:15.5px}
+.mob-bar .btn-ghost{flex:0 0 auto}
+
+/* ===== 结果 ===== */
+.result-wrap{padding-top:30px}
+.score-card{position:relative;overflow:hidden;border-radius:20px;padding:28px;border:1.5px solid rgba(217,180,91,.35);
+  background:linear-gradient(150deg,rgba(217,180,91,.14),rgba(17,25,45,.9) 55%)}
+.score-card.g-green{border-color:rgba(52,211,153,.4);background:linear-gradient(150deg,rgba(52,211,153,.13),rgba(17,25,45,.9) 55%)}
+.score-card.g-yellow{border-color:rgba(251,191,36,.4);background:linear-gradient(150deg,rgba(251,191,36,.12),rgba(17,25,45,.9) 55%)}
+.score-card.g-red{border-color:rgba(251,113,133,.4);background:linear-gradient(150deg,rgba(251,113,133,.12),rgba(17,25,45,.9) 55%)}
+.score-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.score-num{font-size:clamp(46px,9vw,64px);font-weight:800;line-height:1;letter-spacing:-.01em}
+.score-num small{font-size:.45em;font-weight:700;color:var(--txt2)}
+.score-label{font-size:13px;color:var(--txt2)}
+.grade-pill{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;border-radius:999px;padding:6px 14px;margin-top:6px}
+.g-green .grade-pill{background:rgba(52,211,153,.15);color:var(--green)}
+.g-yellow .grade-pill{background:rgba(251,191,36,.15);color:var(--amber)}
+.g-red .grade-pill{background:rgba(251,113,133,.15);color:var(--red)}
+.score-meta{margin-left:auto;text-align:right;font-size:13px;color:var(--txt2)}
+.score-meta b{color:var(--txt);font-size:15px}
+.score-desc{margin-top:14px;color:var(--txt2);font-size:14px}
+.dim-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.dim-cell{background:rgba(7,11,21,.45);border:1px solid var(--line-soft);border-radius:12px;padding:12px 14px}
+.dim-cell .dn{font-size:12.5px;color:var(--txt3)}
+.dim-cell .dv{font-size:21px;font-weight:800;margin-top:2px}
+.dim-cell.low{border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.07)}
+.dim-cell.low .dv{color:var(--amber)}
+.dim-cell.ok .dv{color:var(--green)}
+.fix-card{border-color:rgba(251,191,36,.35);background:linear-gradient(160deg,rgba(251,191,36,.08),var(--panel) 55%)}
+.fix-card h3,.plain-card h3{font-size:16.5px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.fix-card .csub,.plain-card .csub{font-size:13px;color:var(--txt3);margin-bottom:14px}
+.fix-item{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line-soft);font-size:14px;color:var(--txt2)}
+.fix-item:first-of-type{border-top:none}
+.fix-item .no{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(251,191,36,.16);color:var(--amber);font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.fix-item b{color:var(--txt)}
+.conv{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.conv .card{display:flex;flex-direction:column}
+.qr-side{display:flex;gap:16px;align-items:flex-start}
+.qr-side img{width:108px;height:108px;border-radius:12px;flex-shrink:0;background:#fff;padding:5px}
+.conv .ct{font-size:15.5px;font-weight:700;margin-bottom:4px}
+.conv .cd{font-size:13px;color:var(--txt2);margin-bottom:12px}
+.conv .grow{flex:1}
+.lead-form .field{margin-bottom:13px}
+.lead-form input,.lead-form select{padding:12px 14px;font-size:15px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--txt2);margin:4px 0 14px;cursor:pointer}
+.consent input{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:#D9B45B}
+.lead-ok{display:none;text-align:center;padding:10px 0}
+.lead-ok .ok-ico{width:52px;height:52px;border-radius:50%;background:rgba(52,211,153,.15);color:var(--green);font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.lead-ok b{font-size:16px;display:block;margin-bottom:6px}
+.lead-ok p{font-size:13px;color:var(--txt2)}
+.lead-err{display:none;font-size:12.5px;color:var(--red);margin-bottom:10px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.disclaimer{margin-top:26px;padding:16px 18px;border:1px solid var(--line-soft);border-radius:14px;background:rgba(7,11,21,.4);font-size:12.5px;color:var(--txt3)}
+.disclaimer b{color:var(--txt2)}
+
+/* ===== 企微弹层 ===== */
+.modal-backdrop{position:fixed;inset:0;z-index:90;background:rgba(3,6,12,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-backdrop[hidden]{display:none}
+.modal{background:var(--bg2);border:1px solid var(--line);border-radius:18px;max-width:340px;width:100%;padding:26px;text-align:center;position:relative}
+.modal h3{font-size:17px;margin-bottom:6px}
+.modal p{font-size:13px;color:var(--txt2);margin-bottom:16px}
+.modal img{width:210px;height:210px;border-radius:12px;background:#fff;padding:8px;display:block;margin:0 auto}
+.modal .close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--txt3);font-size:26px;cursor:pointer;line-height:1}
+.modal .cap{font-size:12px;color:var(--txt3);margin-top:12px}
+
+/* ===== 页脚 ===== */
+.site-footer{border-top:1px solid var(--line-soft);background:rgba(6,9,17,.9);margin-top:40px}
+.footer-in{max-width:1120px;margin:0 auto;padding:34px 20px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--txt3)}
+.footer-in a{color:var(--txt2);text-decoration:none}
+.footer-in a:hover{color:var(--gold2)}
+.icp-bar{border-top:1px solid var(--line-soft);text-align:center;padding:13px 16px;font-size:12px}
+.icp-bar a{color:#8B94A8;text-decoration:none}
+.icp-bar a:hover{color:var(--gold2)}
+
+/* ===== 打印（导出 PDF） ===== */
+.print-only{display:none}
+@media print{
+  @page{size:A4;margin:16mm}
+  body{background:#fff!important;color:#111!important}
+  .grid-bg,.orb,.site-header,.site-footer,.mob-bar,.steptabs,.no-print,.conv,.actions,.disclaimer .web-only{display:none!important}
+  .print-only{display:block!important}
+  .card,.score-card,.dim-cell{background:#fff!important;border-color:#ccc!important;box-shadow:none!important;color:#111!important}
+  .score-num,.dim-cell .dv,.qcard h2{color:#111!important}
+  .sub,.score-label,.score-desc,.dim-cell .dn,.fix-item,.tip,.mini .mt b{color:#333!important}
+  .eyebrow{color:#8a6d1f!important}
+  h1,h1 em{color:#111!important}
+  .print-head{border-bottom:2px solid #012169;padding-bottom:10px;margin-bottom:18px}
+  .print-head h2{font-size:20px;color:#012169}
+  .print-head p{font-size:12px;color:#555;margin-top:4px}
+  .print-disc{margin-top:20px;font-size:11px;color:#555;border-top:1px solid #ccc;padding-top:8px}
+}
+
+/* ===== 响应式 ===== */
+@media (max-width:920px){
+  .quiz-layout{grid-template-columns:1fr}
+  .side{display:none}
+}
+@media (max-width:760px){
+  .region-grid{grid-template-columns:repeat(2,1fr)}
+  .visa-grid{grid-template-columns:1fr}
+  .conv{grid-template-columns:1fr}
+  .header-nav a:not(.header-cta){display:none}
+  .hero{padding:36px 0 22px}
+  .dim-grid{grid-template-columns:1fr 1fr}
+  main{padding-bottom:110px}
+  .btn{min-height:46px}
+  .score-meta{margin-left:0;text-align:left;width:100%}
+}
+@media (max-width:420px){
+  .region-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .rcard{padding:14px 12px}
+  .rflag{width:38px;height:38px}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="orb orb-a" aria-hidden="true"></div>
+<div class="orb orb-b" aria-hidden="true"></div>
+<div class="orb orb-c" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-in">
+    <a class="brand" href="/">
+      <span class="brand-chip"><img src="/images/origin-logo.jpg" alt="ORIGIN 奥赢国际"></span>
+      <span class="brand-name"><b>ORIGIN</b><span>奥赢国际</span></span>
+    </a>
+    <nav class="header-nav" aria-label="页面导航">
+      <a href="/">首页</a>
+      <a href="/visa/">签证要求速查</a>
+      <a href="/tools/approval/" class="on" aria-current="page">出签率自测</a>
+      <a href="#" class="header-cta" id="navWecom">加企业微信</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ===== 视图一：选国 ===== -->
+  <section class="view on" id="view-select" aria-label="选择目的地">
+    <div class="hero">
+      <span class="eyebrow">ORIGIN · 签证与跨境出行准备</span>
+      <h1>出签率<em>自测</em></h1>
+      <p class="sub">六大维度加权评估您的签证申请条件，3 分钟出结果。评估在您的浏览器本地完成，<b>不会上传任何答案</b>。</p>
+      <div class="hero-meta">
+        <span><i></i>个人 25% · 财务 25% · 目的 20%</span>
+        <span><i></i>材料 15% · 国内约束 10% · 户籍 5%</span>
+        <span><i></i>结果仅供参考，不替代官方申请</span>
+      </div>
+    </div>
+
+    <h2 class="sec-title">第一步 · 选择目的地</h2>
+    <p class="sec-desc">覆盖商务出行与家庭出行最常办理的六大目的地。</p>
+    <div class="region-grid" id="regionGrid" role="group" aria-label="选择目的地"></div>
+
+    <div class="visa-wrap" id="visaWrap" hidden>
+      <h2 class="sec-title">第二步 · 选择签证类型</h2>
+      <p class="sec-desc">不同签证类型的官方参考批准率不同，会直接影响评估结果。</p>
+      <div class="visa-grid" id="visaGrid" role="group" aria-label="选择签证类型"></div>
+      <div class="start-row">
+        <button class="btn btn-primary" id="startBtn" disabled>开始自测 →</button>
+      </div>
+      <p class="select-hint" id="startHint">请先选择目的地与签证类型</p>
+    </div>
+    <p class="privacy-line">🔒 评估纯本地计算 · 不注册 · 问卷答案不会上传；如需顾问跟进，仅提交<b>姓名与联系方式</b>等低敏信息。</p>
+  </section>
+
+  <!-- ===== 视图二：问卷 ===== -->
+  <section class="view" id="view-quiz" aria-label="评估问卷">
+    <div class="quiz-layout">
+      <div>
+        <div class="quiz-head">
+          <div class="who">
+            <span class="qflag" id="qFlag"></span>
+            <div><b id="qRegion"></b><span id="qVisa"></span></div>
+          </div>
+          <div class="step-pos">第 <b id="stepNow">1</b> / <span id="stepAll">6</span> 部分</div>
+        </div>
+        <div class="progress" id="progress" aria-hidden="true"></div>
+        <div class="steptabs" id="stepTabs" role="tablist" aria-label="问卷分部"></div>
+
+        <div class="card qcard" id="qCard"><!-- 步骤内容由 JS 渲染 --></div>
+
+        <div class="navrow no-print">
+          <button class="btn btn-ghost" id="prevBtn">← 上一步</button>
+          <button class="btn btn-primary" id="nextBtn">下一步 →</button>
+        </div>
+      </div>
+
+      <aside class="side" aria-label="评估进度">
+        <div class="card">
+          <h3>评估进度</h3>
+          <div id="sideMinis"></div>
+        </div>
+        <div class="card">
+          <h3>说明</h3>
+          <p class="side-note">六个维度按权重加权后，结合目的地与签证类型的官方参考批准率，得出综合出签概率。右侧分数会随您的作答实时更新。</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===== 视图三：结果 ===== -->
+  <section class="view" id="view-result" aria-label="评估结果">
+    <div class="result-wrap">
+      <div class="score-card" id="scoreCard">
+        <div class="score-top">
+          <div>
+            <p class="score-label">综合出签概率</p>
+            <p class="score-num" id="rScore">--<small>%</small></p>
+          </div>
+          <div>
+            <span class="grade-pill" id="rGrade">--</span>
+            <p class="score-meta" id="rMeta"></p>
+          </div>
+        </div>
+        <p class="score-desc" id="rDesc"></p>
+      </div>
+
+      <div class="card plain-card" style="margin-top:14px">
+        <h3>六维度评分详情</h3>
+        <p class="csub">按权重加权：个人 25% · 财务 25% · 目的 20% · 材料 15% · 国内约束 10% · 户籍敏感 5%</p>
+        <div id="dimChart"></div>
+        <div class="dim-grid" id="dimGrid"></div>
+      </div>
+
+      <div class="card fix-card" style="margin-top:14px" id="fixCard">
+        <h3>⚡ 优先补强建议</h3>
+        <p class="csub">来自您得分最低的维度，按影响从大到小排序。</p>
+        <div id="fixList"></div>
+      </div>
+
+      <!-- 转化区 -->
+      <div class="conv no-print" id="convBlock">
+        <div class="card">
+          <div class="qr-side">
+            <img src="/origin-wecom-qr.jpg" alt="ORIGIN 企业微信二维码">
+            <div class="grow">
+              <p class="ct">扫码添加企业微信</p>
+              <p class="cd">带上自测结果截图，顾问能更快定位您的短板，给出可执行的补强方案与材料核对表。</p>
+              <button class="btn btn-primary" id="qrBigBtn">放大二维码</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div id="leadFormBox">
+            <p class="ct">让顾问主动联系您</p>
+            <p class="cd">留下联系方式与出行计划，顾问将在服务时段内回复。<b style="color:var(--txt2)">不会提交您的问卷答案。</b></p>
+            <div class="lead-form">
+              <div class="field">
+                <label for="ldName">姓名</label>
+                <input type="text" id="ldName" maxlength="20" placeholder="怎么称呼您">
+              </div>
+              <div class="field">
+                <label for="ldContact">微信号或手机号</label>
+                <input type="text" id="ldContact" maxlength="30" placeholder="二选一即可">
+              </div>
+              <div class="field">
+                <label for="ldDest">目的国 / 地区</label>
+                <select id="ldDest"></select>
+              </div>
+              <div class="field">
+                <label for="ldTime">大致出行时间</label>
+                <select id="ldTime">
+                  <option value="">请选择</option>
+                  <option>1 个月内</option>
+                  <option>1–3 个月</option>
+                  <option>3–6 个月</option>
+                  <option>6 个月以上</option>
+                  <option>还没定，先了解</option>
+                </select>
+              </div>
+              <label class="consent"><input type="checkbox" id="ldConsent"><span>同意 ORIGIN 顾问通过企业微信 / 电话与我联系，仅用于本次签证咨询。</span></label>
+              <p class="lead-err" id="leadErr"></p>
+              <button class="btn btn-primary" id="leadSubmit" style="width:100%">提交，等待顾问联系</button>
+              <p class="tip" style="margin-top:10px">提交即表示同意以上授权；我们不会向第三方提供您的信息。</p>
+            </div>
+          </div>
+          <div class="lead-ok" id="leadOk">
+            <div class="ok-ico">✓</div>
+            <b>已收到，谢谢！</b>
+            <p id="leadOkMsg">顾问将在服务时段内与您联系。</p>
+            <p style="margin-top:12px">着急的话，也可以直接扫码添加企业微信：</p>
+            <img src="/origin-wecom-qr.jpg" alt="ORIGIN 企业微信二维码" style="width:150px;height:150px;border-radius:12px;background:#fff;padding:6px;display:block;margin:12px auto 0">
+          </div>
+        </div>
+      </div>
+
+      <div class="card plain-card" style="margin-top:14px">
+        <h3>下一步准备</h3>
+        <p class="csub">先测短板，再核对材料——两步配合使用效果最好。</p>
+        <div class="actions">
+          <a class="btn btn-line" id="visaLink" href="/visa/">查看该国签证要求与材料 →</a>
+          <button class="btn btn-ghost no-print" id="printBtn">导出 / 打印 PDF 报告</button>
+          <button class="btn btn-ghost no-print" id="restartBtn">重新评估</button>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <b>免责声明：</b>本评估工具基于各国官方公开批准率数据与行业通用评估模型生成，结果仅供参考，不能替代官方正式签证申请。实际出签结果取决于签证官个案审核、当前政策、申请季节等多种因素，不保证评估结果完全准确。评估数据在您的浏览器本地计算，除您主动提交的联系信息外，我们不会收集任何问卷答案。
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 企微弹层 -->
+<div class="modal-backdrop" id="wecomModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wecomTitle">
+    <button class="close" id="wecomClose" aria-label="关闭">×</button>
+    <h3 id="wecomTitle">ORIGIN 官方企业微信</h3>
+    <p>签证与跨境出行准备 · 一对一评估</p>
+    <img src="/origin-wecom-qr.jpg" alt="ORIGIN 企业微信二维码">
+    <p class="cap">微信扫码添加 · 建议备注「签证自测」</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-in">
+    <div>© 2026 <a href="/">ORIGIN 奥赢国际</a> · 签证与跨境出行准备</div>
+    <div><a href="/visa/">签证要求速查</a> · <a href="/tools/approval/">出签率自测</a> · <a href="/privacy.html">隐私政策</a></div>
+  </div>
+  <div class="icp-bar"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">浙ICP备2021038217号-2</a></div>
+</footer>
+
+<script>
+/* ================= 数据（与 allinnb/visa-approval-calculator 六维模型一致） ================= */
+var REGION_COEF = { usa:.95, canada:1.02, uk:1.05, australia:1.00, nz:.98, schengen:1.00 };
+
+var REGIONS = [
+  { id:'usa', name:'美国', code:'US', color:'#3C5A99', base:'76%', visas:[
+    {id:'b1b2', name:'B1/B2 旅游/商务签证', desc:'赴美旅游、探亲访友或短期商务', rate:76},
+    {id:'f1',   name:'F1 学生签证',         desc:'赴美就读认可的教育机构',       rate:85},
+    {id:'h1b',  name:'H-1B 工作签证',       desc:'需雇主担保的专业职业工签',     rate:25}]},
+  { id:'canada', name:'加拿大', code:'CA', color:'#C8102E', base:'80%', visas:[
+    {id:'tourist', name:'访客签证（TRV）',  desc:'赴加旅游、探亲访友',            rate:80},
+    {id:'study',   name:'学习许可（学签）', desc:'赴加指定院校学习',              rate:85},
+    {id:'super',   name:'超级签证',         desc:'父母/祖父母探亲，最长停留 2 年', rate:90},
+    {id:'ee',      name:'EE 快速通道',      desc:'技术移民通道，综合评分制',      rate:72}]},
+  { id:'uk', name:'英国', code:'UK', color:'#012169', base:'91%', visas:[
+    {id:'visitor', name:'标准访客签证', desc:'赴英旅游、探亲或短期商务',     rate:91},
+    {id:'student', name:'学生签证',     desc:'赴英认可教育机构学习',         rate:93},
+    {id:'work',    name:'工作签证',     desc:'Skilled Worker 路径',          rate:95}]},
+  { id:'australia', name:'澳大利亚', code:'AU', color:'#00529F', base:'85%', visas:[
+    {id:'tourist',  name:'访客签证（600 类）',    desc:'赴澳旅游、探亲访友',   rate:85},
+    {id:'student',  name:'学生签证（500 类）',    desc:'赴澳学习',             rate:88},
+    {id:'employer', name:'雇主担保签证（482 类）', desc:'需澳方雇主担保',       rate:95}]},
+  { id:'nz', name:'新西兰', code:'NZ', color:'#00247D', base:'87%', visas:[
+    {id:'visitor', name:'访客签证',      desc:'赴新旅游、探亲访友',           rate:87},
+    {id:'student', name:'学生签证',      desc:'赴新学习',                     rate:88},
+    {id:'silver',  name:'银蕨工签（SFV）', desc:'面向指定职业的技术工签',      rate:65}]},
+  { id:'schengen', name:'申根地区', code:'EU', color:'#003399', base:'83%', visas:[
+    {id:'tourist', name:'申根短期签证', desc:'访问申根区 29 国，最长 90 天',  rate:83}]}
+];
+
+var DIMS = [
+  {id:'personal',    name:'个人基础条件', weight:.25},
+  {id:'financial',   name:'财务状况',     weight:.25},
+  {id:'purpose',     name:'出行目的',     weight:.20},
+  {id:'documents',   name:'材料完整性',   weight:.15},
+  {id:'ties',        name:'国内约束力',   weight:.10},
+  {id:'sensitivity', name:'户籍敏感度',   weight:.05}
+];
+
+var STEP_META = [
+  {id:'personal',    label:'个人条件'},
+  {id:'financial',   label:'财务状况'},
+  {id:'purpose',     label:'出行目的'},
+  {id:'documents',   label:'材料准备'},
+  {id:'ties',        label:'国内约束'},
+  {id:'sensitivity', label:'补充信息'}
+];
+
+/* 国家卡片 → /visa/ 锚点映射（写在配置里，勿散落） */
+var VISA_FOCUS = { usa:'us', canada:'ca', uk:'gb', australia:'au', nz:'nz', schengen:'eu' };
+
+/* ================= 评分（移植自 lib/scoring/algorithm.ts，勿改逻辑） ================= */
+function calcDim(answers){
+  var out = {}, s, sg;
+  // personal
+  s = 0; sg = [];
+  if (answers.age >= 25 && answers.age <= 50) s += 30;
+  else if (answers.age >= 18 && answers.age < 25) s += 20;
+  else if (answers.age > 50 && answers.age <= 65) s += 20;
+  else { s += 10; sg.push('年龄因素可能在审核中受到关注，建议准备充分的出行说明'); }
+  var edu = {phd:25, master:22, bachelor:18, high_school:10, other:8};
+  s += (edu[answers.education] || 0);
+  if (answers.previousTravel >= 5) s += 25;
+  else if (answers.previousTravel >= 3) s += 20;
+  else if (answers.previousTravel >= 1) s += 12;
+  else { s += 5; sg.push('建议积累更多出境记录，发达国家出入境章有助于提升信誉'); }
+  if (answers.previousVisaDenial) { s = Math.max(0, s - 20); sg.push('有拒签记录，建议在申请中如实说明，并提供更充分的材料'); }
+  out.personal = {score: Math.min(100, s), suggestions: sg};
+  // financial
+  s = 0; sg = [];
+  if (answers.annualIncome >= 50) s += 35;
+  else if (answers.annualIncome >= 30) s += 28;
+  else if (answers.annualIncome >= 20) s += 22;
+  else if (answers.annualIncome >= 10) s += 15;
+  else { s += 8; sg.push('收入水平偏低，建议提供更多资产证明作为补充'); }
+  if (answers.savings >= 50) s += 35;
+  else if (answers.savings >= 30) s += 28;
+  else if (answers.savings >= 15) s += 22;
+  else if (answers.savings >= 5) s += 15;
+  else { s += 8; sg.push('存款证明不足，建议提供更多资金证明'); }
+  if (answers.hasProperty) s += 15;
+  if (answers.hasVehicle) s += 15;
+  out.financial = {score: Math.min(100, s), suggestions: sg};
+  // purpose
+  s = 0; sg = [];
+  var ps = {study:35, work:35, business:30, visit_family:25, tourism:22};
+  s += (ps[answers.purpose] || 20);
+  if (answers.hasInvitation) s += 30;
+  else sg.push('有邀请函可大幅提升出签率，建议联系邀请方提供邀请函');
+  if (answers.hasDetailedPlan) s += 20;
+  else sg.push('建议提供详细的行程计划，包括机票、酒店预订');
+  out.purpose = {score: Math.min(100, s), suggestions: sg};
+  // documents
+  s = 0; sg = [];
+  if (answers.passportValid >= 12) s += 30;
+  else if (answers.passportValid >= 6) s += 20;
+  else { s += 8; sg.push('护照有效期不足，建议更新护照'); }
+  if (answers.hasTravelInsurance) s += 25;
+  else sg.push('建议购买旅行保险，特别是申根地区这是强制要求');
+  if (answers.hasFlightBooking) s += 25;
+  else sg.push('建议提供机票预订单（可退改签的预订单）');
+  if (answers.hasHotelBooking) s += 20;
+  else sg.push('建议提供酒店预订确认单');
+  out.documents = {score: Math.min(100, s), suggestions: sg};
+  // ties
+  s = 0; sg = [];
+  if (answers.hasStableJob) s += 35;
+  else sg.push('稳定的工作是重要的约束力证明，建议提供在职证明');
+  if (answers.hasBusiness) s += 25;
+  if (answers.hasFamilyInChina) s += 30;
+  else sg.push('在国内有直系亲属是重要的回国约束力证明');
+  if (answers.hasHouseProperty) s += 10;
+  out.ties = {score: Math.min(100, s), suggestions: sg};
+  // sensitivity
+  s = 50; sg = [];
+  if (answers.isSensitiveRegion) { s -= 25; sg.push('敏感地区户籍建议准备更充分的材料，包括详细的行程说明'); }
+  else s += 30;
+  if (answers.hasOfficialPassport) s += 20;
+  out.sensitivity = {score: Math.max(0, Math.min(100, s)), suggestions: sg};
+  return out;
+}
+
+function calcScore(answers, regionId, visaId){
+  var dims = calcDim(answers);
+  var region = REGIONS.filter(function(r){return r.id===regionId;})[0];
+  var visa = null;
+  region.visas.forEach(function(v){ if (v.id === visaId) visa = v; });
+  if (!visa) visa = region.visas[0];
+  var weighted = 0, list = [];
+  DIMS.forEach(function(d){
+    weighted += dims[d.id].score * d.weight;
+    list.push({id:d.id, name:d.name, weight:d.weight, score:dims[d.id].score, suggestions:dims[d.id].suggestions});
+  });
+  var rate = Math.min(.99, (weighted/100) * REGION_COEF[regionId] * (visa.rate/100 * 1.2 + .1));
+  var total = Math.round(rate * 100);
+  var grade = total < 40 ? 'red' : (total < 70 ? 'yellow' : 'green');
+  return {total: total, grade: grade, rate: rate, dims: list, regionName: region.name, visaName: visa.name, regionId: regionId, visaId: visaId};
+}
+
+/* ================= 状态 ================= */
+var state = {
+  region: null, visa: null, step: 0, name: '', result: null,
+  answers: {age:30, education:'bachelor', previousTravel:2, previousVisaDenial:false,
+    annualIncome:15, savings:20, hasProperty:false, hasVehicle:false,
+    purpose:'tourism', hasInvitation:false, hasDetailedPlan:false,
+    passportValid:12, hasTravelInsurance:false, hasFlightBooking:false, hasHotelBooking:false,
+    hasStableJob:true, hasBusiness:false, hasFamilyInChina:true, hasHouseProperty:false,
+    isSensitiveRegion:false, hasOfficialPassport:false}
+};
+function $(id){ return document.getElementById(id); }
+function show(view){
+  ['view-select','view-quiz','view-result'].forEach(function(v){ $(v).classList.toggle('on', v===view); });
+  window.scrollTo({top:0, behavior:'auto'});
+}
+function regionById(id){ return REGIONS.filter(function(r){return r.id===id;})[0]; }
+function flagChip(r, cls){ return '<span class="'+cls+'" style="background:'+r.color+'">'+r.code+'</span>'; }
+
+/* ================= 视图一 ================= */
+function renderRegions(){
+  $('regionGrid').innerHTML = REGIONS.map(function(r){
+    return '<button type="button" class="rcard'+(state.region===r.id?' on':'')+'" data-r="'+r.id+'" aria-pressed="'+(state.region===r.id)+'">'
+      + '<span class="tick">✓</span>'
+      + flagChip(r,'rflag')
+      + '<div class="rname">'+r.name+'</div>'
+      + '<div class="rbase">基础批准率约 <b>'+r.base+'</b></div></button>';
+  }).join('');
+  Array.prototype.forEach.call($('regionGrid').children, function(btn){
+    btn.onclick = function(){
+      state.region = btn.dataset.r; state.visa = null;
+      renderRegions(); renderVisas();
+      $('visaWrap').hidden = false;
+    };
+  });
+}
+function renderVisas(){
+  var r = regionById(state.region);
+  $('visaGrid').innerHTML = r.visas.map(function(v){
+    return '<button type="button" class="vcard'+(state.visa===v.id?' on':'')+'" data-v="'+v.id+'">'
+      + '<span><span class="vname">'+v.name+'</span><span class="vdesc" style="display:block">'+v.desc+'</span></span>'
+      + '<span class="vrate"><b>'+v.rate+'%</b><span>批准率</span></span></button>';
+  }).join('');
+  Array.prototype.forEach.call($('visaGrid').children, function(btn){
+    btn.onclick = function(){ state.visa = btn.dataset.v; renderVisas(); syncStart(); };
+  });
+  syncStart();
+}
+function syncStart(){
+  var ok = !!(state.region && state.visa);
+  $('startBtn').disabled = !ok;
+  $('startHint').textContent = ok ? '准备就绪，预计 3 分钟' : '请先选择目的地与签证类型';
+}
+$('startBtn').onclick = function(){ enterQuiz(); };
+
+/* ================= 视图二 ================= */
+function enterQuiz(){
+  var r = regionById(state.region);
+  $('qFlag').outerHTML = flagChip(r,'qflag').replace('class="qflag"','class="qflag" id="qFlag"');
+  $('qRegion').textContent = r.name;
+  $('qVisa').textContent = r.visas.filter(function(v){return v.id===state.visa;})[0].name;
+  $('stepAll').textContent = STEP_META.length;
+  renderProgress(); renderTabs(); renderStep();
+  show('view-quiz');
+}
+function renderProgress(){
+  $('progress').innerHTML = STEP_META.map(function(_, i){
+    return '<i class="'+(i<state.step?'done':(i===state.step?'act':''))+'"></i>';
+  }).join('');
+}
+function renderTabs(){
+  $('stepTabs').innerHTML = STEP_META.map(function(s, i){
+    return '<button type="button" class="steptab'+(i===state.step?' on':(i<state.step?' done':''))+'" data-i="'+i+'">'
+      + (i<state.step?'✓ ':'')+s.label+'</button>';
+  }).join('');
+  Array.prototype.forEach.call($('stepTabs').children, function(b){
+    b.onclick = function(){ state.step = +b.dataset.i; renderProgress(); renderTabs(); renderStep(); };
+  });
+}
+function boolRow(key, title, desc){
+  var on = !!state.answers[key];
+  return '<div class="bool'+(on?' on':'')+'" data-k="'+key+'" role="switch" aria-checked="'+on+'" tabindex="0">'
+    + '<span><span class="bt">'+title+'</span><span class="bd" style="display:block">'+desc+'</span></span>'
+    + '<span style="display:flex;align-items:center;gap:10px"><span class="sw"></span><span class="st">'+(on?'是':'否')+'</span></span></div>';
+}
+function bindBools(root){
+  Array.prototype.forEach.call(root.querySelectorAll('.bool'), function(el){
+    var toggle = function(){
+      var k = el.dataset.k;
+      state.answers[k] = !state.answers[k];
+      var on = state.answers[k];
+      el.classList.toggle('on', on);
+      el.setAttribute('aria-checked', on);
+      el.querySelector('.st').textContent = on ? '是' : '否';
+      updateSide();
+    };
+    el.onclick = toggle;
+    el.onkeydown = function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); toggle(); } };
+  });
+}
+var STEP_HTML = [
+  function(){ return '<h2>个人基础条件</h2><p class="qsub">年龄、学历与出境记录是签证官最先看到的信息。</p>'
+    + '<div class="field"><label for="fName">您的姓名（选填，用于报告）</label><input type="text" id="fName" maxlength="20" placeholder="留空则显示为「匿名用户」" value=""></div>'
+    + '<div class="field"><label for="fAge">年龄</label><input type="number" id="fAge" min="18" max="80" inputmode="numeric" value="'+state.answers.age+'"></div>'
+    + '<div class="field"><label for="fEdu">最高学历</label><select id="fEdu">'
+      + '<option value="high_school"'+(state.answers.education==='high_school'?' selected':'')+'>高中</option>'
+      + '<option value="bachelor"'+(state.answers.education==='bachelor'?' selected':'')+'>本科</option>'
+      + '<option value="master"'+(state.answers.education==='master'?' selected':'')+'>硕士</option>'
+      + '<option value="phd"'+(state.answers.education==='phd'?' selected':'')+'>博士</option>'
+      + '<option value="other"'+(state.answers.education==='other'?' selected':'')+'>其他</option></select></div>'
+    + '<div class="field"><label for="fTravel">出境旅行过的国家数量</label><input type="number" id="fTravel" min="0" max="50" inputmode="numeric" value="'+state.answers.previousTravel+'"><p class="hint">包括商务出差、旅游、留学等所有出境记录</p></div>'
+    + boolRow('previousVisaDenial','是否有签证拒签记录？','如实填写有助于更准确的评估'); },
+  function(){ return '<h2>财务状况</h2><p class="qsub">收入与资产证明是判断回国约束力的重要依据。</p>'
+    + '<div class="field"><label for="fIncome">年收入（万元）</label><input type="number" id="fIncome" min="0" inputmode="numeric" value="'+state.answers.annualIncome+'"></div>'
+    + '<div class="field"><label for="fSavings">银行存款（万元）</label><input type="number" id="fSavings" min="0" inputmode="numeric" value="'+state.answers.savings+'"></div>'
+    + '<div class="bool-grid">'+boolRow('hasProperty','商业房产','如购买的商业地产')+boolRow('hasVehicle','私家车','本人名下汽车')+'</div>'; },
+  function(){ return '<h2>出行目的</h2><p class="qsub">目的真实、行程清晰，是短期签证的核心。</p>'
+    + '<div class="field"><label for="fPurpose">出行目的</label><select id="fPurpose">'
+      + '<option value="tourism"'+(state.answers.purpose==='tourism'?' selected':'')+'>旅游观光</option>'
+      + '<option value="business"'+(state.answers.purpose==='business'?' selected':'')+'>商务出差</option>'
+      + '<option value="visit_family"'+(state.answers.purpose==='visit_family'?' selected':'')+'>探亲访友</option>'
+      + '<option value="study"'+(state.answers.purpose==='study'?' selected':'')+'>留学读书</option>'
+      + '<option value="work"'+(state.answers.purpose==='work'?' selected':'')+'>工作就业</option></select></div>'
+    + boolRow('hasInvitation','是否有邀请函或担保信？','邀请函可以显著提升出签率')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasDetailedPlan','是否有详细的行程计划？','包括每日行程、景点预订等'); },
+  function(){ return '<h2>材料准备</h2><p class="qsub">护照、保险与预订材料是递签的硬门槛。</p>'
+    + '<div class="field"><label for="fPassport">护照有效期（月）</label><input type="number" id="fPassport" min="1" inputmode="numeric" value="'+state.answers.passportValid+'"><p class="hint">大多数国家要求护照有效期超过 6 个月</p></div>'
+    + boolRow('hasTravelInsurance','旅行保险','申根地区为强制要求')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasFlightBooking','机票预订单','可退改签的预订单即可')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasHotelBooking','酒店预订','覆盖行程的住宿证明'); },
+  function(){ return '<h2>国内约束力</h2><p class="qsub">约束力越强，越能说明您会按时回国。</p>'
+    + boolRow('hasStableJob','稳定工作','正式劳动合同、在职证明')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasBusiness','自营业务 / 营业执照','本人名下的企业')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasFamilyInChina','直系亲属在中国','配偶、子女、父母等')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasHouseProperty','个人房产','本人或配偶名下住房'); },
+  function(){ return '<h2>补充信息</h2><p class="qsub">最后两项，仅用于评估，不会上传。</p>'
+    + boolRow('isSensitiveRegion','是否来自敏感地区 / 户籍？','如福建、广东（部分）、辽宁（部分）等')
+    + '<div style="height:11px"></div>'
+    + boolRow('hasOfficialPassport','是否持有因公普通护照？','因公护照在某些国家有免签或优先处理'); }
+];
+function renderStep(){
+  $('qCard').innerHTML = STEP_HTML[state.step]();
+  var nameInput = $('fName');
+  if (nameInput){ nameInput.value = state.name; nameInput.oninput = function(){ state.name = this.value; }; }
+  var map = {fAge:'age', fTravel:'previousTravel', fIncome:'annualIncome', fSavings:'savings', fPassport:'passportValid'};
+  Object.keys(map).forEach(function(id){
+    var el = $(id);
+    if (el) el.oninput = function(){ state.answers[map[id]] = parseInt(this.value,10) || 0; updateSide(); };
+  });
+  var sel = {fEdu:'education', fPurpose:'purpose'};
+  Object.keys(sel).forEach(function(id){
+    var el = $(id);
+    if (el) el.onchange = function(){ state.answers[sel[id]] = this.value; updateSide(); };
+  });
+  bindBools($('qCard'));
+  $('stepNow').textContent = state.step + 1;
+  $('prevBtn').style.visibility = state.step === 0 ? 'hidden' : 'visible';
+  $('nextBtn').textContent = state.step === STEP_HTML.length-1 ? '查看结果 ✓' : '下一步 →';
+  updateSide();
+}
+function liveDims(){ return calcDim(state.answers); }
+function updateSide(){
+  if (!$('sideMinis')) return;
+  var d = liveDims();
+  $('sideMinis').innerHTML = DIMS.map(function(dim){
+    var v = d[dim.id].score, low = v < 60;
+    return '<div class="mini'+(low?' low':'')+'"><div class="mt"><b>'+dim.name+'</b><span class="mv">'+v+'</span></div>'
+      + '<div class="bar"><i style="width:'+v+'%"></i></div></div>';
+  }).join('');
+}
+$('prevBtn').onclick = function(){ if (state.step>0){ state.step--; renderProgress(); renderTabs(); renderStep(); } };
+$('nextBtn').onclick = function(){
+  if (state.step < STEP_HTML.length-1){ state.step++; renderProgress(); renderTabs(); renderStep(); }
+  else finish();
+};
+
+/* ================= 视图三 ================= */
+function gradeInfo(g){
+  return {
+    green:{label:'出签前景良好', desc:'您的条件较为优秀，保持现有优势并按清单完善材料即可。', cls:'g-green'},
+    yellow:{label:'出签概率中等', desc:'您的材料基本合格，优先补强下方得分较低的维度，可明显提升把握。', cls:'g-yellow'},
+    red:{label:'出签风险较高', desc:'建议在递签前充分准备材料，或先让顾问评估整体方案，避免浪费一次记录。', cls:'g-red'}
+  }[g];
+}
+function radarSVG(dims){
+  var cx=130, cy=128, R=92, n=dims.length, i, pts=[];
+  for (i=0;i<n;i++){
+    (function(i){
+      var a = -Math.PI/2 + i*2*Math.PI/n;
+      pts.push(function(r){ return [cx+Math.cos(a)*r, cy+Math.sin(a)*r]; });
+    })(i);
+  }
+  grid = [25,50,75,100].map(function(lv){
+    return '<polygon points="'+pts.map(function(p){return p(lv).map(function(v){return v.toFixed(1);}).join(',');}).join(' ')
+      +'" fill="none" stroke="rgba(148,163,184,.18)" stroke-width="1"/>';
+  }).join('');
+  axes = pts.map(function(p){ var q=p(R); return '<line x1="'+cx+'" y1="'+cy+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'" stroke="rgba(148,163,184,.16)"/>'; }).join('');
+  labels = dims.map(function(d,i){
+    var q = pts[i](R+22);
+    return '<text x="'+q[0].toFixed(1)+'" y="'+(q[1]+4).toFixed(1)+'" text-anchor="middle" font-size="11" fill="#A6B1C8">'+d.name+' '+d.score+'</text>';
+  }).join('');
+  var poly = '<polygon points="'+dims.map(function(d,i){ var q=pts[i](d.score); return q[0].toFixed(1)+','+q[1].toFixed(1); }).join(' ')
+    +'" fill="rgba(217,180,91,.28)" stroke="#D9B45B" stroke-width="2" stroke-linejoin="round"/>';
+  var dots = dims.map(function(d,i){ var q=pts[i](d.score); return '<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="3.4" fill="#E8CE8F"/>'; }).join('');
+  return '<svg class="no-print" viewBox="0 0 260 250" style="width:100%;max-width:320px;display:block;margin:6px auto 0" role="img" aria-label="六维度雷达图">'+grid+axes+poly+dots+labels+'</svg>';
+}
+function finish(){
+  state.result = calcScore(state.answers, state.region, state.visa);
+  var r = state.result, g = gradeInfo(r.grade);
+  $('scoreCard').className = 'score-card '+g.cls;
+  $('rScore').innerHTML = r.total + '<small>%</small>';
+  $('rGrade').textContent = g.label;
+  $('rDesc').textContent = g.desc;
+  $('rMeta').innerHTML = '<b>'+(state.name.trim()||'匿名用户')+'</b><br>' + r.regionName + ' · ' + r.visaName;
+
+  // 图：桌面雷达 / 移动条形
+  var desktop = window.matchMedia('(min-width: 761px)').matches;
+  var chart = desktop ? radarSVG(r.dims)
+    : '<div class="no-print" style="margin-top:6px">' + r.dims.map(function(d){
+        var low = d.score < 60;
+        return '<div class="mini'+(low?' low':'')+'" style="margin-bottom:12px"><div class="mt"><b>'+d.name+'（权重 '+Math.round(d.weight*100)+'%）</b><span class="mv">'+d.score+'</span></div>'
+          + '<div class="bar" style="height:9px"><i style="width:'+d.score+'%"></i></div></div>';
+      }).join('') + '</div>';
+  $('dimChart').innerHTML = chart;
+  $('dimGrid').innerHTML = r.dims.map(function(d){
+    var low = d.score < 60;
+    return '<div class="dim-cell '+(low?'low':'ok')+'"><div class="dn">'+d.name+'</div><div class="dv">'+d.score+'</div></div>';
+  }).join('');
+
+  // 优先补强：最低分维度的建议，取前 3 条
+  var weakest = r.dims.slice().sort(function(a,b){ return a.score-b.score; });
+  var fixes = [];
+  weakest.forEach(function(d){ if (d.score < 70) d.suggestions.forEach(function(t){ fixes.push({dim:d.name, score:d.score, text:t}); }); });
+  fixes = fixes.slice(0,3);
+  $('fixList').innerHTML = fixes.length
+    ? fixes.map(function(f,i){ return '<div class="fix-item"><span class="no">'+(i+1)+'</span><span><b>'+f.dim+'（'+f.score+' 分）</b>：'+f.text+'</span></div>'; }).join('')
+    : '<div class="fix-item"><span class="no">✓</span><span>六个维度均在良好线以上，保持现有条件，按 <b>签证要求速查</b> 核对材料即可。</span></div>';
+
+  // 回链 /visa/（带 focus 锚点参数）
+  var focus = VISA_FOCUS[r.regionId];
+  $('visaLink').href = '/visa/' + (focus ? '?focus='+focus : '');
+  $('visaLink').textContent = '查看' + r.regionName + '签证要求与材料 →';
+
+  // 留资表单预填
+  $('ldDest').innerHTML = '<option>'+r.regionName+' · '+r.visaName+'</option>';
+  $('ldName').value = state.name.trim();
+  show('view-result');
+}
+$('printBtn').onclick = function(){ window.print(); };
+$('restartBtn').onclick = function(){ state.step = 0; show('view-select'); };
+
+/* ================= 留资（08.5） ================= */
+function contactValid(v){
+  return /^1[3-9]\d{9}$/.test(v) || /^[A-Za-z][-_A-Za-z0-9]{5,19}$/.test(v);
+}
+$('leadSubmit').onclick = function(){
+  var err = $('leadErr');
+  var name = $('ldName').value.trim();
+  var contact = $('ldContact').value.trim();
+  var time = $('ldTime').value;
+  var consent = $('ldConsent').checked;
+  err.style.display = 'none';
+  if (!name){ err.textContent = '请填写姓名'; err.style.display='block'; return; }
+  if (!contactValid(contact)){ err.textContent = '请填写有效的手机号（11 位）或微信号'; err.style.display='block'; return; }
+  if (!time){ err.textContent = '请选择大致出行时间'; err.style.display='block'; return; }
+  if (!consent){ err.textContent = '请先勾选同意顾问与您联系'; err.style.display='block'; return; }
+  var btn = $('leadSubmit');
+  btn.disabled = true; btn.textContent = '提交中…';
+  fetch('/api/tool-lead.php', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      name: name, contact: contact, destination: $('ldDest').value, travelTime: time,
+      region: state.result.regionId, visaType: state.result.visaId,
+      score: state.result.total, grade: state.result.grade,
+      consent: true, consentVersion: '2026-09-approval-v1', source: 'approval_tool'
+    })
+  }).then(function(res){
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    return res.json();
+  }).then(function(){
+    $('leadFormBox').style.display = 'none';
+    $('leadOk').style.display = 'block';
+  }).catch(function(){
+    // 兜底：绝不把用户挡在门外
+    btn.disabled = false; btn.textContent = '提交，等待顾问联系';
+    err.textContent = '网络提交暂不可用——请直接扫码添加企业微信，把结果截图发给顾问即可。';
+    err.style.display = 'block';
+  });
+};
+
+/* ================= 企微弹层 ================= */
+function openWecom(){ $('wecomModal').hidden = false; }
+function closeWecom(){ $('wecomModal').hidden = true; }
+$('navWecom').onclick = function(e){ e.preventDefault(); openWecom(); };
+$('qrBigBtn').onclick = openWecom;
+$('wecomClose').onclick = closeWecom;
+$('wecomModal').onclick = function(e){ if (e.target === this) closeWecom(); };
+document.addEventListener('keydown', function(e){ if (e.key==='Escape') closeWecom(); });
+
+/* ================= 移动端固定底栏（问卷内） ================= */
+var mobBar = document.createElement('div');
+mobBar.className = 'mob-bar';
+mobBar.innerHTML = '<button class="btn btn-ghost" id="mPrev">← 上一步</button><button class="btn btn-primary" id="mNext">下一步 →</button>';
+document.body.appendChild(mobBar);
+$('mPrev').onclick = function(){ $('prevBtn').click(); };
+$('mNext').onclick = function(){ $('nextBtn').click(); };
+function syncMobBar(){
+  var inQuiz = $('view-quiz').classList.contains('on');
+  mobBar.style.display = inQuiz ? 'flex' : 'none';
+  $('mPrev').style.visibility = state.step === 0 ? 'hidden' : 'visible';
+  $('mNext').textContent = state.step === STEP_HTML.length-1 ? '查看结果 ✓' : '下一步 →';
+}
+var _show = show;
+show = function(v){ _show(v); syncMobBar(); };
+var _rs = renderStep;
+renderStep = function(){ _rs(); syncMobBar(); };
+
+/* ================= 入口 ================= */
+renderRegions();
+(function initFromURL(){
+  var q = new URLSearchParams(location.search);
+  var r = q.get('region'), v = q.get('visa');
+  if (r && regionById(r)){
+    state.region = r;
+    renderRegions(); renderVisas();
+    $('visaWrap').hidden = false;
+    if (v && regionById(r).visas.filter(function(x){return x.id===v;}).length){ state.visa = v; renderVisas(); }
+  }
+})();
+</script>
+</body>
+</html>
