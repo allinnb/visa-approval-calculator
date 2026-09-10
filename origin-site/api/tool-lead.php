@@ -2,7 +2,9 @@
 /**
  * ORIGIN 出签率自测 · 低敏留资接收端点（迭代 08.5）
  * 路径: /api/tool-lead.php   (同源, 无需 CORS)
- * 存储: /www/backup/origin-leads/leads.ndjson  (webroot 之外, 公网不可读)
+ * 存储: /www/wwwroot/originintl.cn/api/store/leads.log
+ *       - 放 webroot 内是因 .user.ini open_basedir 限制；
+ *       - nginx 敏感文件规则对 *.log 直接返回 404，公网不可读（已有 vhost 规则，勿删）。
  * 通知: 配置 WECOM_WEBHOOK 后可同步推送企业微信群机器人；未配置时仅落盘, 不报错。
  * 方法: POST application/json
  */
@@ -13,8 +15,8 @@ header('X-Content-Type-Options: nosniff');
 // 可选：在此粘贴企业微信群机器人 Webhook，实现实时通知
 const WECOM_WEBHOOK = '';
 
-const STORE_DIR = '/www/backup/origin-leads';
-const STORE_FILE = STORE_DIR . '/leads.ndjson';
+const STORE_DIR = '/www/wwwroot/originintl.cn/api/store';
+const STORE_FILE = STORE_DIR . '/leads.log';
 const RATE_DIR = STORE_DIR . '/rate';
 const RATE_LIMIT = 20;   // 每 IP 每 10 分钟
 const RATE_WINDOW = 600;
