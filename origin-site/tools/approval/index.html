@@ -224,6 +224,16 @@ input::placeholder{color:var(--txt3)}
 .disclaimer{margin-top:26px;padding:16px 18px;border:1px solid var(--line-soft);border-radius:14px;background:rgba(7,11,21,.4);font-size:12.5px;color:var(--txt3)}
 .disclaimer b{color:var(--txt2)}
 
+/* ===== 评估编号 / 转化引导（08.6） ===== */
+.id-card{grid-column:1/-1}
+.id-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.id-label{font-size:12.5px;color:var(--txt3);letter-spacing:.08em}
+.id-val{font-size:20px;font-weight:800;color:var(--gold2);letter-spacing:.06em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.id-copy{margin-left:auto}
+.id-hint{font-size:12.5px;color:var(--txt3);margin-top:9px;line-height:1.6}
+.id-hint.ok{color:var(--green)}
+@media (max-width:760px){ .id-copy{margin-left:0;width:100%} }
+
 /* ===== 企微弹层 ===== */
 .modal-backdrop{position:fixed;inset:0;z-index:90;background:rgba(3,6,12,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
 .modal-backdrop[hidden]{display:none}
@@ -332,7 +342,7 @@ input::placeholder{color:var(--txt3)}
       </div>
       <p class="select-hint" id="startHint">请先选择目的地与签证类型</p>
     </div>
-    <p class="privacy-line">🔒 评估纯本地计算 · 不注册 · 问卷答案不会上传；如需顾问跟进，仅提交<b>姓名与联系方式</b>等低敏信息。</p>
+    <p class="privacy-line">🔒 评估纯本地计算 · 不注册 · 问卷答案不会上传；仅记录匿名的完成情况用于改进工具。如需顾问跟进，仅提交<b>姓名与联系方式</b>等低敏信息。</p>
   </section>
 
   <!-- ===== 视图二：问卷 ===== -->
@@ -400,14 +410,23 @@ input::placeholder{color:var(--txt3)}
         <div id="fixList"></div>
       </div>
 
-      <!-- 转化区 -->
+      <!-- 转化区（08.6：评估编号 + 主动加企微） -->
       <div class="conv no-print" id="convBlock">
+        <div class="card id-card">
+          <div class="id-row">
+            <span class="id-label">你的评估编号</span>
+            <b class="id-val" id="leadIdText">--</b>
+            <button class="btn btn-line id-copy" id="copySumBtn" type="button">复制评估摘要</button>
+          </div>
+          <p class="id-hint" id="copyHint">复制这段摘要，添加顾问企业微信后直接粘贴——顾问一眼看到你的条件和短板，不用重复描述。</p>
+        </div>
+
         <div class="card">
           <div class="qr-side">
             <img src="/origin-wecom-qr.jpg" alt="ORIGIN 企业微信二维码">
             <div class="grow">
-              <p class="ct">扫码添加企业微信</p>
-              <p class="cd">带上自测结果截图，顾问能更快定位您的短板，给出可执行的补强方案与材料核对表。</p>
+              <p class="ct">加顾问企业微信，领定制补强清单</p>
+              <p class="cd" id="qrPitch">顾问会针对你得分最低的维度，给出该国材料清单与近期同类条件的过签情况。</p>
               <button class="btn btn-primary" id="qrBigBtn">放大二维码</button>
             </div>
           </div>
@@ -415,7 +434,7 @@ input::placeholder{color:var(--txt3)}
 
         <div class="card">
           <div id="leadFormBox">
-            <p class="ct">让顾问主动联系您</p>
+            <p class="ct">或留个联系方式，让顾问主动找你</p>
             <p class="cd">留下联系方式与出行计划，顾问将在服务时段内回复。<b style="color:var(--txt2)">不会提交您的问卷答案。</b></p>
             <div class="lead-form">
               <div class="field">
@@ -450,8 +469,9 @@ input::placeholder{color:var(--txt3)}
           <div class="lead-ok" id="leadOk">
             <div class="ok-ico">✓</div>
             <b>已收到，谢谢！</b>
-            <p id="leadOkMsg">顾问将在服务时段内与您联系。</p>
-            <p style="margin-top:12px">着急的话，也可以直接扫码添加企业微信：</p>
+            <p>你的评估编号：<b id="okLeadId" style="color:var(--gold2);font-family:ui-monospace,Menlo,Consolas,monospace">--</b></p>
+            <p id="leadOkMsg">顾问将在服务时段内凭此编号优先接待你。</p>
+            <p style="margin-top:12px">建议顺手加上顾问企业微信，把编号发过去 —— 他会把对应的材料清单直接发给你：</p>
             <img src="/origin-wecom-qr.jpg" alt="ORIGIN 企业微信二维码" style="width:150px;height:150px;border-radius:12px;background:#fff;padding:6px;display:block;margin:12px auto 0">
           </div>
         </div>
@@ -468,7 +488,7 @@ input::placeholder{color:var(--txt3)}
       </div>
 
       <div class="disclaimer">
-        <b>免责声明：</b>本评估工具基于各国官方公开批准率数据与行业通用评估模型生成，结果仅供参考，不能替代官方正式签证申请。实际出签结果取决于签证官个案审核、当前政策、申请季节等多种因素，不保证评估结果完全准确。评估数据在您的浏览器本地计算，除您主动提交的联系信息外，我们不会收集任何问卷答案。
+        <b>免责声明：</b>本评估工具基于各国官方公开批准率数据与行业通用评估模型生成，结果仅供参考，不能替代官方正式签证申请。实际出签结果取决于签证官个案审核、当前政策、申请季节等多种因素，不保证评估结果完全准确。<b>评估数据在您的浏览器本地计算，问卷答案不会上传。</b>我们仅记录匿名完成情况（目的国、签证类型、分数档与完成时间），用于改进本工具；除您主动提交的联系信息外，不会收集任何可识别您身份的内容。
       </div>
     </div>
   </section>
@@ -481,7 +501,7 @@ input::placeholder{color:var(--txt3)}
     <h3 id="wecomTitle">ORIGIN 官方企业微信</h3>
     <p>签证与跨境出行准备 · 一对一评估</p>
     <img src="/origin-wecom-qr.jpg" alt="ORIGIN 企业微信二维码">
-    <p class="cap">微信扫码添加 · 建议备注「签证自测」</p>
+    <p class="cap">微信扫码添加 · 加好友后回复你的评估编号，顾问优先接待</p>
   </div>
 </div>
 
@@ -643,6 +663,84 @@ var state = {
     isSensitiveRegion:false, hasOfficialPassport:false}
 };
 function $(id){ return document.getElementById(id); }
+
+/* ================= 评估编号 / 匿名埋点 / 入口归因（08.6） =================
+   红线：上报内容只有 目的国 / 签证类型 / 分数档 / 步骤 / 短板维度名 / 入口，
+   绝不含姓名、联系方式与任何题目答案。原始分由服务端转成分数档后落盘。
+   ------------------------------------------------------------------- */
+var OR_ALPHABET = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+function genLeadId(){
+  var d = new Date(), p = function(n){ return (n < 10 ? '0' : '') + n; }, s = '';
+  for (var i = 0; i < 4; i++) s += OR_ALPHABET[Math.floor(Math.random() * OR_ALPHABET.length)];
+  return 'OR-' + p(d.getMonth() + 1) + p(d.getDate()) + '-' + s;
+}
+var entry = 'direct', utmStr = '';
+(function readEntry(){
+  var q = new URLSearchParams(location.search);
+  entry = (q.get('from') || 'direct').slice(0, 20);
+  var u = [];
+  ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function(k){
+    if (q.get(k)) u.push(k.replace('utm_', '') + '=' + q.get(k));
+  });
+  utmStr = u.join(',');
+})();
+state.leadId = genLeadId();
+var trackSent = {};
+function weakDimText(){
+  if (!state.result) return '';
+  return state.result.dims.slice().sort(function(a, b){ return a.score - b.score; })
+    .filter(function(d){ return d.score < 70; }).slice(0, 3)
+    .map(function(d){ return d.name; }).join('、');
+}
+function track(kind, extra){
+  if (trackSent[kind]) return;
+  trackSent[kind] = true;
+  var r = state.result || {};
+  var body = {
+    kind: kind, leadId: state.leadId,
+    region: r.regionId || state.region || '',
+    visaType: r.visaId || state.visa || '',
+    score: typeof r.total === 'number' ? r.total : -1,
+    grade: r.grade || '',
+    step: state.step, stepTotal: STEP_HTML.length,
+    weakDims: weakDimText(),
+    entry: entry, utm: utmStr
+  };
+  if (extra) { for (var k in extra) { if (Object.prototype.hasOwnProperty.call(extra, k)) body[k] = extra[k]; } }
+  try {
+    var data = JSON.stringify(body);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/tool-event', new Blob([data], { type: 'application/json' }));
+    } else {
+      fetch('/api/tool-event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: data, keepalive: true });
+    }
+  } catch (e) { /* 埋点失败绝不能影响用户 */ }
+}
+function summaryText(){
+  var r = state.result || {};
+  var labels = { red: '需重点补强', yellow: '有提升空间', green: '条件良好' };
+  var detail = state.result
+    ? state.result.dims.slice().sort(function(a, b){ return a.score - b.score; })
+        .filter(function(d){ return d.score < 70; }).slice(0, 3)
+        .map(function(d){ return d.name + ' ' + d.score; }).join('，')
+    : '';
+  return '【ORIGIN 出签率自测】编号 ' + state.leadId + '\n'
+    + '目的地：' + (r.regionName || '') + ' · ' + (r.visaName || '') + '\n'
+    + '综合出签把握：' + r.total + '%（' + (labels[r.grade] || '') + '）\n'
+    + (detail ? '待补强维度：' + detail + '\n' : '')
+    + '（本页截图一起发，顾问判断更准）';
+}
+function fallbackCopy(t){
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    var ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e) { return false; }
+}
+
 function show(view){
   ['view-select','view-quiz','view-result'].forEach(function(v){ $(v).classList.toggle('on', v===view); });
   window.scrollTo({top:0, behavior:'auto'});
@@ -883,6 +981,19 @@ function finish(){
   // 留资表单预填
   $('ldDest').innerHTML = '<option>'+r.regionName+' · '+r.visaName+'</option>';
   $('ldName').value = state.name.trim();
+
+  // 评估编号与转化引导（08.6）
+  trackSent = {};
+  $('leadIdText').textContent = state.leadId;
+  $('okLeadId').textContent = state.leadId;
+  var weak = weakDimText();
+  $('qrPitch').textContent = '顾问会针对你最弱的维度（' + (weak || '整体条件') + '），给出'
+    + r.regionName + '的材料清单与近期同类条件的过签情况。';
+  var hintEl = $('copyHint');
+  hintEl.classList.remove('ok');
+  hintEl.textContent = '复制这段摘要，添加顾问企业微信后直接粘贴——顾问一眼看到你的条件和短板，不用重复描述。';
+  track('result');
+
   show('view-result');
 }
 $('printBtn').onclick = function(){ window.print(); };
@@ -912,12 +1023,18 @@ $('leadSubmit').onclick = function(){
       name: name, contact: contact, destination: $('ldDest').value, travelTime: time,
       region: state.result.regionId, visaType: state.result.visaId,
       score: state.result.total, grade: state.result.grade,
-      consent: true, consentVersion: '2026-09-approval-v1', source: 'approval_tool'
+      weakDims: weakDimText(), leadId: state.leadId, entry: entry, utm: utmStr,
+      consent: true, consentVersion: '2026-09-approval-v2', source: 'approval_tool'
     })
   }).then(function(res){
     if (!res.ok) throw new Error('HTTP '+res.status);
     return res.json();
-  }).then(function(){
+  }).then(function(d){
+    if (d && typeof d.leadId === 'string' && d.leadId) {
+      state.leadId = d.leadId;
+      $('okLeadId').textContent = d.leadId;
+      $('leadIdText').textContent = d.leadId;
+    }
     $('leadFormBox').style.display = 'none';
     $('leadOk').style.display = 'block';
   }).catch(function(){
@@ -928,8 +1045,35 @@ $('leadSubmit').onclick = function(){
   });
 };
 
+/* ================= 复制评估摘要（08.6） ================= */
+$('copySumBtn').onclick = function(){
+  track('intent');   // 表达意向即上报，与复制是否成功无关（点了就说明想去加顾问）
+  var t = summaryText();
+  var hintEl = $('copyHint');
+  var settled = false;
+  var done = function(){
+    if (settled) return; settled = true;
+    hintEl.classList.add('ok');
+    hintEl.textContent = '已复制 ✓ 添加顾问企业微信后粘贴发送，顾问能立刻对上你的情况（编号 ' + state.leadId + '）。';
+  };
+  var fail = function(){
+    if (settled) return; settled = true;
+    hintEl.classList.remove('ok');
+    hintEl.textContent = '无法自动复制，请长按下方编号手动记录：' + state.leadId;
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(function(){ done(); }, function(){ fallbackCopy(t) ? done() : fail(); });
+    // 部分浏览器剪贴板 Promise 会一直挂起 —— 兜底，避免「点了没反应」
+    setTimeout(function(){ if (!settled) { fallbackCopy(t) ? done() : fail(); } }, 900);
+  } else if (fallbackCopy(t)) {
+    done();
+  } else {
+    fail();
+  }
+};
+
 /* ================= 企微弹层 ================= */
-function openWecom(){ $('wecomModal').hidden = false; }
+function openWecom(){ $('wecomModal').hidden = false; track('intent'); }
 function closeWecom(){ $('wecomModal').hidden = true; }
 $('navWecom').onclick = function(e){ e.preventDefault(); openWecom(); };
 $('qrBigBtn').onclick = openWecom;
@@ -954,6 +1098,13 @@ var _show = show;
 show = function(v){ _show(v); syncMobBar(); };
 var _rs = renderStep;
 renderStep = function(){ _rs(); syncMobBar(); };
+
+/* ================= 问卷中途离开上报（08.6，匿名，仅含步骤序数） ================= */
+var quizStarted = false;
+$('startBtn').addEventListener('click', function(){ quizStarted = true; });
+document.addEventListener('visibilitychange', function(){
+  if (document.visibilityState === 'hidden' && quizStarted && !state.result) track('abandon');
+});
 
 /* ================= 入口 ================= */
 renderRegions();
