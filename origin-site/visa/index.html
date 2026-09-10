@@ -540,8 +540,14 @@ const TYPE_META = {
 const CONTINENTS = ['亚洲','欧洲','美洲','非洲','大洋洲'];
 const TYPES = ['免签','落地签','电子签','需签证'];
 
-/* 与出签率自测打通：国家卡片 → 自测地区映射（迭代 08.3，唯一事实源） */
-const TEST_REGION = { us:'usa', ca:'canada', gb:'uk', au:'australia', nz:'nz', eu:'schengen' };
+/* 与出签率自测打通：国家卡片 → 自测入口（迭代 08.3，唯一事实源）
+   有地区映射则直达对应自测；无映射（如日本/韩国）则落到选国页。 */
+const TEST_LINK = {
+  us:'/tools/approval/?region=usa', ca:'/tools/approval/?region=canada',
+  gb:'/tools/approval/?region=uk',  eu:'/tools/approval/?region=schengen',
+  au:'/tools/approval/?region=australia', nz:'/tools/approval/?region=nz',
+  jp:'/tools/approval/', kr:'/tools/approval/'
+};
 
 const TOP5 = [
   {rank:'01', flag:'th', name:'泰国', season:'11 月 – 次年 2 月 · 凉季', days:'建议 5–7 天', desc:'曼谷都市 + 清迈古城 + 南部海岛，首次出境与家庭出游的首选一站，免签说走就走。'},
@@ -713,7 +719,7 @@ function render(){
       '<p class="stay">' + clockSVG + '<b>' + c.stay + '</b></p>' +
       '<p class="note">' + c.note + '</p>' +
       (c.list ? '<button class="list-btn" data-key="' + c.list + '">' + docSVG + '材料清单</button>' : '') +
-      (TEST_REGION[c.id] ? '<a class="test-btn" href="/tools/approval/?region=' + TEST_REGION[c.id] + '">⚡ 测测出签把握</a>' : '') +
+      (TEST_LINK[c.id] ? '<a class="test-btn" href="' + TEST_LINK[c.id] + '">⚡ 测测出签把握</a>' : '') +
       '</article>';
   }).join('');
   grid.style.display = list.length ? '' : 'none';
