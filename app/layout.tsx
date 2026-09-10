@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "签证出签率自测系统",
-  description: "帮助您评估美国、加拿大、英国、澳大利亚、新西兰、申根地区签证的通过概率",
+  title: "签证出签率自测系统 · Origin 奥赢国际",
+  description:
+    "Origin · 奥赢国际出签率自测（旧版）：评估美国、加拿大、英国、澳大利亚、新西兰、申根地区签证的通过概率。官方版已迁移至 originintl.cn",
 };
 
 export default function RootLayout({

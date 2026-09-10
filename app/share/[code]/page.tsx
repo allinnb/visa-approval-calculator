@@ -18,6 +18,7 @@ import {
   Copy,
   Check,
 } from 'lucide-react';
+import OriginReferral from '@/components/origin-referral';
 
 interface AssessmentData {
   result: ScoringResult;
@@ -128,6 +129,9 @@ export default function ShareResultPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50">
+      {/* Origin 官网回流横幅（08.1） */}
+      <OriginReferral variant="result" />
+
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -271,6 +275,11 @@ export default function ShareResultPage() {
             本评估工具仅供参考，不能替代官方正式签证申请。实际出签结果取决于签证官的个案审核、
             当前政策、申请季节等多种因素。
           </p>
+        </div>
+
+        {/* Origin 官网回流（底部，08.1） */}
+        <div className="mt-6">
+          <OriginReferral variant="result" placement="bottom" />
         </div>
       </main>
     </div>

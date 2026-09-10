@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { regionConfigs, allRegions } from '@/lib/scoring/regions';
 import type { Region } from '@/lib/types';
 import { Globe, ChevronRight, FileText, Shield, Zap } from 'lucide-react';
+import OriginReferral, { ORIGIN_HOME_URL } from '@/components/origin-referral';
 
 export default function Home() {
   const router = useRouter();
@@ -19,6 +20,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Origin 官网回流横幅（08.1） */}
+      <OriginReferral />
+
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -165,6 +169,13 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 text-center text-sm text-slate-500">
           <p>本工具仅供参考，不能替代官方正式签证申请。实际结果取决于多种因素。</p>
           <p className="mt-2">数据来源：各国移民局官方年报 + 第三方统计平台（2024年度）</p>
+          <p className="mt-3 text-xs text-slate-400">
+            Origin · 奥赢国际（
+            <a href={ORIGIN_HOME_URL} className="underline hover:text-slate-600">
+              originintl.cn
+            </a>
+            ）出品 · 本工具已迁移至官网，不再更新
+          </p>
         </div>
       </footer>
     </div>
