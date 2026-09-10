@@ -905,7 +905,7 @@ $('leadSubmit').onclick = function(){
   if (!consent){ err.textContent = '请先勾选同意顾问与您联系'; err.style.display='block'; return; }
   var btn = $('leadSubmit');
   btn.disabled = true; btn.textContent = '提交中…';
-  fetch('/api/tool-lead.php', {
+  fetch('/api/tool-lead', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
