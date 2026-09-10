@@ -27,6 +27,11 @@ const LEAD_FILE = path.join(STORE_DIR, 'leads.ndjson');
 const EVENT_FILE = path.join(STORE_DIR, 'events.ndjson');
 const WECOM_WEBHOOK = process.env.WECOM_WEBHOOK || '';
 const STATS_TOKEN = process.env.STATS_TOKEN || '';
+// 企业微信自建应用（08.8）：与群机器人二选一或并存，哪个配了走哪个
+const WECOM_APP_CORP_ID = process.env.WECOM_APP_CORP_ID || '';
+const WECOM_APP_SECRET = process.env.WECOM_APP_SECRET || '';
+const WECOM_APP_AGENT_ID = process.env.WECOM_APP_AGENT_ID || '';
+const WECOM_APP_TOUSER = process.env.WECOM_APP_TOUSER || '@all';
 
 const LEAD_LIMIT = 20;          // 每 IP 每 10 分钟
 const EVENT_LIMIT = 90;         // 每 IP 每 10 分钟
@@ -139,11 +144,73 @@ function postJson(url, payload, timeoutMs) {
   });
 }
 
-async function pushWecom(markdown) {
-  if (!WECOM_WEBHOOK) return { ok: false, msg: 'webhook not configured' };
-  const r = await postJson(WECOM_WEBHOOK, { msgtype: 'markdown', markdown: { content: markdown } });
-  if (!r.ok) console.error('[wecom] push failed:', r.msg);
+/* ---------- 企业微信自建应用：先取 access_token（带缓存），再发 markdown 消息 ---------- */
+let __token = { v: '', exp: 0 };
+function getAccessToken() {
+  return new Promise((resolve) => {
+    const now = Date.now();
+    if (__token.v && __token.exp > now + 60000) return resolve(__token.v);
+    const url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=' +
+      encodeURIComponent(WECOM_APP_CORP_ID) + '&corpsecret=' + encodeURIComponent(WECOM_APP_SECRET);
+    const req = https.get(url, { timeout: 6000 }, (res) => {
+      let d = '';
+      res.on('data', (c) => { d += c; });
+      res.on('end', () => {
+        try {
+          const j = JSON.parse(d);
+          if (j.errcode === 0 && j.access_token) {
+            __token = { v: j.access_token, exp: now + (j.expires_in || 7200) * 1000 };
+            return resolve(j.access_token);
+          }
+          console.error('[wecom-app] gettoken failed:', d.slice(0, 160));
+          resolve('');
+        } catch (e) { resolve(''); }
+      });
+    });
+    req.on('error', (e) => { console.error('[wecom-app] gettoken err:', e.message); resolve(''); });
+    req.on('timeout', () => { req.destroy(); resolve(''); });
+  });
+}
+
+async function pushWecomApp(markdown) {
+  const token = await getAccessToken();
+  if (!token) return { ok: false, msg: 'no access_token' };
+  const r = await postJson('https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' + token, {
+    touser: WECOM_APP_TOUSER,
+    msgtype: 'markdown',
+    agentid: Number(WECOM_APP_AGENT_ID) || WECOM_APP_AGENT_ID,
+    markdown: { content: markdown },
+    safe: 0,
+  });
+  if (r.ok && r.body) {
+    try {
+      const j = JSON.parse(r.body);
+      if (j.errcode && j.errcode !== 0) {
+        return { ok: false, msg: 'errcode ' + j.errcode + ' ' + (j.errmsg || '') };
+      }
+    } catch (e) { /* body 不是完整 JSON，忽略 */ }
+  }
   return r;
+}
+
+/**
+ * 统一推送出口：群机器人 + 自建应用，配了哪个走哪个（可同时）。
+ * markdown 语法两边都支持 ** 加粗与 > 引用。
+ */
+async function pushWecom(markdown) {
+  const results = [];
+  if (WECOM_WEBHOOK) {
+    const r = await postJson(WECOM_WEBHOOK, { msgtype: 'markdown', markdown: { content: markdown } });
+    if (!r.ok) console.error('[wecom-webhook] push failed:', r.msg);
+    results.push(r);
+  }
+  if (WECOM_APP_SECRET && WECOM_APP_AGENT_ID) {
+    const r = await pushWecomApp(markdown);
+    if (!r.ok) console.error('[wecom-app] push failed:', r.msg);
+    results.push(r);
+  }
+  if (!results.length) return { ok: false, msg: 'no channel configured' };
+  return results[0];
 }
 
 function nowText(d) {
@@ -167,7 +234,8 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/health') {
     return json(res, 200, {
       ok: true, store: LEAD_FILE, eventStore: EVENT_FILE,
-      wecom: !!WECOM_WEBHOOK, statsToken: !!STATS_TOKEN,
+      wecom: !!WECOM_WEBHOOK, wecomApp: !!(WECOM_APP_SECRET && WECOM_APP_AGENT_ID),
+      statsToken: !!STATS_TOKEN,
       leads: countLines(LEAD_FILE), events: countLines(EVENT_FILE),
     });
   }
